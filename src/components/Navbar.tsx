@@ -22,6 +22,7 @@ import Modal from "./shared/Modal";
 import { useModal } from "./shared/useModal";
 import dayjs from "dayjs";
 import addData from "@/server/api/addData";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 type CurrentPage = "home" | "live" | "promo";
 
 interface NavProps {
@@ -29,16 +30,6 @@ interface NavProps {
 }
 
 const Navbar = ({ currentPage }: NavProps) => {
-  // const [navState, setNavState] = useState<boolean>(false);
-  // const something = () => {
-  //   const html = document.querySelector("html");
-  //   html?.addEventListener("click", () => {
-  //     setNavState(false);
-  //   });
-  // };
-  // useEffect(() => {
-  //   something();
-  // }, []);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { user }: { user: User } = useAuthContext();
   const router = useRouter();
@@ -93,14 +84,14 @@ const Navbar = ({ currentPage }: NavProps) => {
 
   const userAccount = userData?.docs[0]?.data();
 
-  const isDailyBonusClaimed = now.isAfter(
-    dayjs(userAccount?.lastDailyBonus),
+  const isDailyBonusClaimed = !now.isAfter(
+    dayjs.unix(userAccount?.lastDailyBonus.seconds),
     "day"
   );
 
   const claimBonus = async () => {
     addData("users", user.uid, {
-      lastDailyBonus: normalizedNow,
+      lastDailyBonus: new Date(),
       balance: userAccount?.balance + 200,
     });
   };
