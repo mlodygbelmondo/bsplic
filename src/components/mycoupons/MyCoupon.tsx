@@ -95,7 +95,7 @@ const MyCoupon = <Coupon extends CouponBasic>({
       <div className="px-3 py-2 gap-1 border-b border-gray-200 font-medium flex flex-col">
         {betType === "ako" && (
           <div className="flex justify-between items-center">
-            <p className="text-gray-700">Łączony kurs</p>
+            <p className="text-gray-700">Łączny kurs</p>
             <p className="p-1.5 bg-yellow-400 rounded-md text-[13px] font-semibold">
               {betOdds.toFixed(2).replace(".", ",")}
             </p>

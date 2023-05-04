@@ -62,6 +62,7 @@ const Home = () => {
         icon: "/categories/school.png",
         subtitle: subtitle,
         title: title,
+        creationDate: new Date(),
       });
       createToast(TOAST_MESSAGES.betCreatedSuccessfully);
     } else {
@@ -115,7 +116,9 @@ const Home = () => {
     <>
       {userAdminRole === "admin" && (
         <div className="pt-[4.5rem] px-[24rem] pb-5">
-          <h2 className="text-center text-2xl font-bold pb-4">Stwórz zakład</h2>
+          <h2 className="text-center text-2xl font-bold pb-4">
+            Tworzenie zakładu
+          </h2>
           <BetCardEditable
             bet1={bet1}
             bet1Odds={bet1Odds}
@@ -286,7 +289,7 @@ const Home = () => {
               type="submit"
               className="px-8 py-3 font-semibold bg-red-600 text-white border rounded-md hover:bg-red-700 transition-colors"
             >
-              Wyślij propozycję zakładu
+              Stwórz zakład
             </button>
             <button
               type="button"
@@ -304,8 +307,8 @@ const Home = () => {
               Wypełnij formularz do matury
             </button>
           </form>
-          <h1 className="mt-10 text-2xl font-bold pl-[3.5rem]">
-            Wszystkie postawione zakłady
+          <h1 className="mt-10 text-2xl font-bold text-center">
+            Postawione zakłady
           </h1>
           <div className="flex flex-col gap-7  items-center mt-4">
             {sortedBets?.map((bet) => (
