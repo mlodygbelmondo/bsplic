@@ -8,6 +8,10 @@ export const getUserById = (userId: string) => {
     : undefined;
 };
 
+export const getAllUsers = () => {
+  return collection(db, "users");
+};
+
 export const getAllBets = () => {
   return collection(db, "bets");
 };
@@ -26,4 +30,8 @@ export const getBetsPlacedByUserId = (userId: string) => {
   return userId
     ? query(collection(db, "bets_placed"), where("userId", "==", userId))
     : undefined;
+};
+
+export const getAllPlacedBets = () => {
+  return collection(db, "bets_placed");
 };

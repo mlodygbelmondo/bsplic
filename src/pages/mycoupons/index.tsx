@@ -14,7 +14,6 @@ const Home = () => {
   const { user }: { user: User } = useAuthContext();
 
   const [userBets] = useCollection(getBetsPlacedByUserId(user.uid));
-  console.log(userBets?.docs[0]?.data());
   const sortedBets = userBets?.docs.sort((a, b) => {
     return dayjs
       .unix(a.data().betDate.seconds)

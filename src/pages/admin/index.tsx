@@ -7,6 +7,10 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 import getData from "../../server/api/getData";
 import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
+import dayjs from "dayjs";
+import MyCoupon from "@/components/mycoupons/MyCoupon";
 const Home = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -94,6 +98,15 @@ const Home = () => {
     getAdmins();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+  const [users] = useCollection(getAllUsers());
+  const [userBets] = useCollection(getAllPlacedBets());
+  const sortedBets = userBets?.docs.sort((a, b) => {
+    return dayjs
+      .unix(a.data().betDate.seconds)
+      .isBefore(dayjs.unix(b.data().betDate.seconds))
+      ? 1
+      : -1;
+  });
 
   return (
     <>
@@ -288,6 +301,23 @@ const Home = () => {
               Wypełnij formularz do matury
             </button>
           </form>
+          <h1 className="mt-10 text-2xl font-bold pl-[3.5rem]">
+            Wszystkie postawione zakłady
+          </h1>
+          <div className="flex flex-col gap-7  items-center mt-4">
+            {sortedBets?.map((bet) => (
+              <div key={bet.id} className="flex flex-col gap-2">
+                <p className="pl-[0.5rem] font-bold text-lg">
+                  {
+                    users?.docs
+                      .find((user) => user.id === bet.data().userId)
+                      ?.data().displayName
+                  }
+                </p>
+                <MyCoupon coupon={bet.data() as any} />
+              </div>
+            ))}
+          </div>
         </div>
       )}
       {userAdminRole === "moderator" && (
