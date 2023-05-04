@@ -75,7 +75,7 @@ const Navbar = ({ currentPage }: NavProps) => {
   const loggingOut = async () => {
     const success = await signOut();
     if (success) {
-      router.push("/bsplic/login");
+      router.push("/login");
       createToast(TOAST_MESSAGES.signOutSuccess());
     }
   };
@@ -100,22 +100,16 @@ const Navbar = ({ currentPage }: NavProps) => {
     <nav className="bg-gradient2 text-white fixed left-0 top-0 w-full z-10">
       <div className="flex justify-between items-center mx-4">
         <div className="flex gap-3 items-center">
-          <button
-            onClick={() =>
-              router.asPath !== "/bsplic" && router.push("/bsplic")
-            }
-          >
+          <button onClick={() => router.asPath !== "/" && router.push("/")}>
             <span className="text-xl font-bold italic">BSPLIC.</span>
           </button>
           <div className="hr"></div>
           <div className="links">
             <div className="flex justify-center items-center font-medium text-sm ">
               <button
-                onClick={() =>
-                  router.asPath !== "/bsplic" && router.push("/bsplic")
-                }
+                onClick={() => router.asPath !== "/" && router.push("/")}
                 className={`p-3.5 hover:bg-red-600 transition-colors ease-in duration-50 ${
-                  router.asPath === "/bsplic" ? "" : "text-[#ffffffaf]"
+                  router.asPath === "" ? "" : "text-[#ffffffaf]"
                 }`}
               >
                 Zakłady
@@ -123,11 +117,10 @@ const Navbar = ({ currentPage }: NavProps) => {
 
               <button
                 onClick={() =>
-                  router.asPath !== "/bsplic/live" &&
-                  router.push("/bsplic/live")
+                  router.asPath !== "/live" && router.push("/live")
                 }
                 className={`p-3.5 relative hover:bg-red-600 transition-colors ease-in duration-50 live-category ${
-                  router.asPath === "/bsplic/live" ? "" : "text-[#ffffffaf]"
+                  router.asPath === "/live" ? "" : "text-[#ffffffaf]"
                 }`}
               >
                 Na żywo{" "}
@@ -138,13 +131,10 @@ const Navbar = ({ currentPage }: NavProps) => {
 
               <button
                 onClick={() =>
-                  router.asPath !== "/bsplic/promotions" &&
-                  router.push("/bsplic/promotions")
+                  router.asPath !== "/promotions" && router.push("/promotions")
                 }
                 className={`p-3.5 hover:bg-red-600 transition-colors ease-in duration-50 ${
-                  router.asPath === "/bsplic/promotions"
-                    ? ""
-                    : "text-[#ffffffaf]"
+                  router.asPath === "/promotions" ? "" : "text-[#ffffffaf]"
                 }`}
               >
                 Promocje
@@ -195,8 +185,7 @@ const Navbar = ({ currentPage }: NavProps) => {
             <button
               className="register text-sm p-2.5 hover:bg-[#d23131] rounded-lg transition-colors flex items-center gap-2"
               onClick={() =>
-                router.asPath !== "/bsplic/admin" &&
-                router.push("/bsplic/admin")
+                router.asPath !== "/admin" && router.push("/admin")
               }
             >
               <IoShieldSharp className="text-lg" />
@@ -206,8 +195,7 @@ const Navbar = ({ currentPage }: NavProps) => {
           <button
             className="register text-sm p-2.5 hover:bg-[#d43131] rounded-lg transition-colors flex items-center gap-2"
             onClick={() =>
-              router.asPath !== "/bsplic/requestbet" &&
-              router.push("/bsplic/requestbet")
+              router.asPath !== "/requestbet" && router.push("/requestbet")
             }
           >
             <MdCreate className="text-red-600 p-[1.5px] w-[16px] bg-white rounded h-5" />
@@ -216,7 +204,9 @@ const Navbar = ({ currentPage }: NavProps) => {
           {/* TODO: Add my coupons page */}
           <button
             className="register text-sm p-2.5 hover:bg-[#de3737] rounded-lg transition-colors flex items-center gap-2"
-            onClick={() => createToast(TOAST_MESSAGES.functionUnderDevelopment)}
+            onClick={() =>
+              router.asPath !== "/mycoupons" && router.push("/mycoupons")
+            }
           >
             <TiTick className="text-red-600 p w-[16px] bg-white rounded h-5" />
             Moje kupony

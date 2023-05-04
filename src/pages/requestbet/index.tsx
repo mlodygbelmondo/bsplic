@@ -1,11 +1,9 @@
 import addData from "@/server/api/addData";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { User } from "firebase/auth";
 import { useAuthContext } from "@/context/AuthContext";
 
-import { useRouter } from "next/router";
-import getData from "../../../server/api/getData";
 import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
 import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
@@ -24,8 +22,6 @@ const Home = () => {
   const [bet2Percents, setBet2Percents] = useState("");
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
-
-  const router = useRouter();
 
   const { user }: { user: User } = useAuthContext();
   const submit = (e: React.FormEvent<HTMLFormElement>) => {

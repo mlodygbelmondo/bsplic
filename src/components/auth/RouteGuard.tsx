@@ -27,7 +27,7 @@ const RouteGuard = ({ children }: { children: ReactNode }): JSX.Element => {
     if (user === null) {
       setAuthorized(false);
       router.push({
-        pathname: "/bsplic/login",
+        pathname: "/login",
       });
     } else {
       setAuthorized(true);

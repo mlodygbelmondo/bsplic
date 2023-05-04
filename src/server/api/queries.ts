@@ -21,3 +21,9 @@ export const getAdminById = (userId: string) => {
     ? query(collection(db, "admins"), where("uid", "==", userId))
     : undefined;
 };
+
+export const getBetsPlacedByUserId = (userId: string) => {
+  return userId
+    ? query(collection(db, "bets_placed"), where("userId", "==", userId))
+    : undefined;
+};

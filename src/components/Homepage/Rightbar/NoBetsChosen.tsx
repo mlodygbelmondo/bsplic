@@ -13,7 +13,7 @@ const NoBetsChosen = () => {
         Nie masz żadnych zakładów. Kliknij kursy, aby dodać zakłady.
       </p>
       <button
-        onClick={() => router.asPath !== "/bsplic" && router.push("/bsplic")}
+        onClick={() => router.asPath !== "" && router.push("")}
         className="btn-all-bets py-3 px-8 rounded-full font-bold text-primary-500 border-[0.15rem] text-sm border-primary-500 hover:text-white hover:bg-primary-500 transition-colors ease-linear"
       >
         Wszystkie zakłady

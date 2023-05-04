@@ -2,23 +2,21 @@ import Head from "next/head";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { HiOutlineMail } from "react-icons/hi";
-import { BsFacebook, BsGoogle } from "react-icons/bs";
+import { BsGoogle } from "react-icons/bs";
 import { ReactNode, useEffect } from "react";
 import { ImFacebook } from "react-icons/im";
 
 import { useRouter } from "next/router";
-import { User, getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { useAuthContext } from "@/context/AuthContext";
 import { app } from "@/server/api/firebase";
-import { getAnalytics, setUserProperties } from "firebase/analytics";
 import {
-  useAuthState,
   useSignInWithGoogle,
   useSignInWithFacebook,
   useSendSignInLinkToEmail,
 } from "react-firebase-hooks/auth";
-import getData from "../../../server/api/getData";
-import addData from "../../../server/api/addData";
+import getData from "../../server/api/getData";
+import addData from "../../server/api/addData";
 import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
 
@@ -31,9 +29,7 @@ export default function Home() {
   useEffect(() => {
     console.log(user);
     if (user !== null && user !== undefined) {
-      router.push({
-        pathname: "/bsplic",
-      });
+      router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -70,7 +66,7 @@ export default function Home() {
     //     const success = false;
     //     if (success) {
     //       handleCreatingAccount(success);
-    //       router.push("/bsplic");
+    //       router.push("");
     //     }
     //   },
     //   styling:
@@ -85,7 +81,7 @@ export default function Home() {
         if (success) {
           handleCreatingAccount(success);
           createToast(TOAST_MESSAGES.logInSuccess());
-          router.push("/bsplic");
+          router.push("/");
         } else createToast(TOAST_MESSAGES.logInFailed());
       },
       styling:
@@ -99,7 +95,7 @@ export default function Home() {
         const success = await signInWithFacebook();
         if (success) {
           handleCreatingAccount(success);
-          router.push("/bsplic");
+          router.push("/");
         }
       },
       styling:

@@ -65,12 +65,14 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
       (chosenBets.length < 2 ||
         inputValue === "" ||
         inputValue === "0" ||
-        userAccount?.balance < inputValue)) ||
+        userAccount?.balance < inputValue ||
+        Number(inputValue) < 1)) ||
     chosenBets.length === 0 ||
     (currentBet === "bet-single" &&
       (chosenBetSum.reduce((a, b) => a + b.betSum, 0) === 0 ||
         userAccount?.balance < chosenBetSum.reduce((a, b) => a + b.betSum, 0) ||
-        chosenBetSum.length !== chosenBets.length));
+        chosenBetSum.length !== chosenBets.length ||
+        chosenBetSum.findIndex((b) => b.betSum < 1) !== -1));
 
   const placeBet = async () => {
     const test = chosenBetSum.filter((b) => b.betSum === 0);
@@ -92,7 +94,11 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
           betResultDate: null,
           userId: user?.uid,
         };
-        if (betAmount && userAccount?.balance - betAmount >= 0) {
+        if (
+          betAmount &&
+          betAmount >= 1 &&
+          userAccount?.balance - betAmount >= 0
+        ) {
           await addData("bets_placed", betId, betData);
           await addData("users", user?.uid, {
             balance: userAccount?.balance - betAmount,
@@ -107,7 +113,7 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
 
       setChosenBetSum([]);
       setChosenBets([]);
-      router.push("/bsplic");
+      router.push("/");
     } else if (currentBet === "bet-ako") {
       const betId = uuidv4();
       const betData = {
@@ -122,7 +128,10 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
         betResultDate: null,
         userId: user?.uid,
       };
-      if (userAccount?.balance - parseFloat(inputValue) >= 0) {
+      if (
+        userAccount?.balance - parseFloat(inputValue) >= 0 &&
+        parseFloat(inputValue) >= 1
+      ) {
         await addData("bets_placed", betId, betData);
         await addData("users", user?.uid, {
           balance: userAccount?.balance - parseFloat(inputValue),
@@ -131,9 +140,9 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
       createToast(TOAST_MESSAGES.betPlacedSuccessfully);
       setChosenBetSum([]);
       setChosenBets([]);
-      router.push("/bsplic");
+      router.push("/");
     } else if (currentBet === "bet-system") {
-      router.push("/bsplic");
+      router.push("/");
     }
   };
 
@@ -279,9 +288,12 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
               {currentBet === "bet-system" && "0,00"} zł
             </span>
           </div>
-          <div className="bottom-container mb-1">
+          <div className="bottom-container mb-1 flex justify-between items-center">
             <p className="text-gray-400 font-bold text-[0.63rem]">
               Współczynnik 0.88
+            </p>
+            <p className="text-gray-500 font-medium text-[0.63rem]">
+              Stawka min. 1,00 zł
             </p>
           </div>
 

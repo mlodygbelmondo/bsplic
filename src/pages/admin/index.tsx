@@ -5,7 +5,7 @@ import type { User } from "firebase/auth";
 import { useAuthContext } from "@/context/AuthContext";
 
 import { useRouter } from "next/router";
-import getData from "../../../server/api/getData";
+import getData from "../../server/api/getData";
 import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
 const Home = () => {
   const [title, setTitle] = useState("");
@@ -83,18 +83,13 @@ const Home = () => {
       if (user) {
         const admin = await getData("admins", user.uid).then((data) => {
           if (!data.result?.exists()) {
-            return router.push({
-              pathname: "/bsplic",
-            });
+            return router.push("/");
           } else {
             if (data.result.data()?.role === "admin") setUserAdminRole("admin");
             else setUserAdminRole("moderator");
           }
         });
-      } else
-        return router.push({
-          pathname: "/bsplic",
-        });
+      } else return router.push("/");
     };
     getAdmins();
     // eslint-disable-next-line react-hooks/exhaustive-deps
