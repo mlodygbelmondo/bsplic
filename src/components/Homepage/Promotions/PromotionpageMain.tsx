@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const PromotionpageMain = () => {
   return (
-    <div className="flex justify-center flex-col gap-2 items-center ptt-44">
+    <div className="flex justify-center flex-col gap-2 items-center pt-44">
       <Image src="/sad.png" alt="Sad image" width={160} height={160} />
       <h4 className="text-3xl font-bold mb-1">Nic tu nie ma!</h4>
       <p className="text-gray-600 font-medium mb-1">

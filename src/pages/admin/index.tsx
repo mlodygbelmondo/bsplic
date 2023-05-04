@@ -11,6 +11,8 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
 import dayjs from "dayjs";
 import MyCoupon from "@/components/mycoupons/MyCoupon";
+import { createToast } from "@/utils/toasts";
+import { TOAST_MESSAGES } from "@/utils/toastMessages";
 const Home = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -61,23 +63,24 @@ const Home = () => {
         subtitle: subtitle,
         title: title,
       });
+      createToast(TOAST_MESSAGES.betCreatedSuccessfully);
     } else {
-      //alert("Wypełnij wszystkie pola");
-      addData("bets", betId, {
-        bet1: "Poniżej 59.5%",
-        bet1Odds: 1.75,
-        bet1Percents: 54,
-        bet2: "Powyżej 57.5%",
-        bet2Odds: 1.85,
-        bet2Percents: 46,
-        betLabel: "Wynik matury",
-        categories: ["final exam", "school"],
-        date: "04.05.2023",
-        hour: "9:00",
-        icon: "/categories/school.png",
-        subtitle: "Matura - j.polski, podstawa",
-        title: title,
-      });
+      createToast(TOAST_MESSAGES.fillAllFields);
+      // addData("bets", betId, {
+      //   bet1: "Poniżej 59.5%",
+      //   bet1Odds: 1.75,
+      //   bet1Percents: 54,
+      //   bet2: "Powyżej 57.5%",
+      //   bet2Odds: 1.85,
+      //   bet2Percents: 46,
+      //   betLabel: "Wynik matury",
+      //   categories: ["final exam", "school"],
+      //   date: "04.05.2023",
+      //   hour: "9:00",
+      //   icon: "/categories/school.png",
+      //   subtitle: "Matura - j.polski, podstawa",
+      //   title: title,
+      // });
     }
   };
   const router = useRouter();

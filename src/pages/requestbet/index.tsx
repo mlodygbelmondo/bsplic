@@ -72,7 +72,7 @@ const Home = () => {
             console.log(err);
           });
       } else {
-        createToast(TOAST_MESSAGES.fillAllFields());
+        createToast(TOAST_MESSAGES.fillAllFields);
       }
     } else {
       createToast(TOAST_MESSAGES.tooManyRequests());

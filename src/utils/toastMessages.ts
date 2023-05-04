@@ -29,10 +29,10 @@ export const TOAST_MESSAGES = {
     message: "Nie udało się zalogować.",
     type: toastType.failed,
   }),
-  fillAllFields: (): Toast => ({
+  fillAllFields: {
     message: "Wypełnij wszystkie pola.",
     type: toastType.info,
-  }),
+  },
   signOutSuccess: (): Toast => ({
     message: "Wylogowano pomyślnie.",
     type: toastType.success,
@@ -64,5 +64,9 @@ export const TOAST_MESSAGES = {
   xD: {
     message: "xD zdrowy",
     type: toastType.failed,
+  },
+  betCreatedSuccessfully: {
+    message: "Zakład został pomyślnie utworzony!",
+    type: toastType.success,
   },
 };
