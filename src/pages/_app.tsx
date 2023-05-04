@@ -10,6 +10,10 @@ import RouteGuard from "@/components/auth/RouteGuard";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import { Montserrat } from "next/font/google";
+
+// If loading a variable font, you don't need to specify the font weight
+const inter = Montserrat({ subsets: ["latin"] });
 
 export interface ChosenBet {
   icon: string;
@@ -50,17 +54,17 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
 
   if (Component.getLayout) {
     return (
-      <>
+      <main className={inter.className}>
         <AuthContextProvider>
           <Toaster />
           {Component.getLayout(<Component {...pageProps} />)}
         </AuthContextProvider>
-      </>
+      </main>
     );
   }
 
   return (
-    <>
+    <main className={inter.className}>
       <AuthContextProvider>
         <Toaster />
         <RouteGuard>
@@ -80,7 +84,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
           </ChosenBetsContext.Provider>
         </RouteGuard>
       </AuthContextProvider>
-    </>
+    </main>
   );
 };
 
