@@ -109,7 +109,7 @@ const Navbar = ({ currentPage }: NavProps) => {
               <button
                 onClick={() => router.asPath !== "/" && router.push("/")}
                 className={`p-3.5 hover:bg-red-600 transition-colors ease-in duration-50 ${
-                  router.asPath === "" ? "" : "text-[#ffffffaf]"
+                  router.asPath === "/" ? "" : "text-[#ffffffaf]"
                 }`}
               >
                 Zakłady
