@@ -147,11 +147,11 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
   };
 
   return (
-    <div className="right-bar-over fixed top-[4.5rem] right-8 w-80 border border-gray-100 rounded">
+    <div className="right-bar-over fixed h-[calc(100%-6rem)] top-[4.5rem] right-8 w-80 border border-gray-100 rounded">
       <div
         className={`right-bar-container ${
           isCouponOpen ? "active" : ""
-        } flex bg-white rounded-md flex-col justify-between`}
+        } flex bg-white rounded-md flex-col justify-between h-full`}
       >
         <div className="right-bar-header-container flex flex-col gap-2 rounded-tl-lg rounded-tr-lg py-3 px-4 shadow-rightcard">
           <div className="mobile-container hidden">
@@ -198,7 +198,7 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
             </button>
           </div>
         </div>
-        <div className="h-[56vh] shadow-xl p-4 flex flex-col gap-3 overflow-auto">
+        <div className="h-full shadow-xl p-4 flex flex-col gap-3 overflow-auto">
           {currentBet === "bet-system" && <SystemNotAvailable />}
           {chosenBets.length === 0 && currentBet !== "bet-system" && (
             <NoBetsChosen />
