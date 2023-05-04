@@ -33,9 +33,7 @@ const Home = () => {
       {userBets?.docs &&
         (userBets?.docs.length !== 0 ? (
           <div className="pt-[70px] flex flex-col pb-4 items-center pl-[15rem] pr-[17rem] gap-3">
-            <h1 className="pl-[11.3rem] w-full text-2xl font-bold">
-              Moje kupony
-            </h1>
+            <h1 className="text-2xl mb-1 font-bold">Moje kupony</h1>
             {sortedBets?.map((bet) => (
               <MyCoupon key={bet.id} coupon={bet.data() as any} />
             ))}
