@@ -59,7 +59,7 @@ const Home = () => {
         categories: [category],
         date: date,
         hour: hour,
-        icon: "/categories/school.png",
+        icon: "/popularbets/dice.png",
         subtitle: subtitle,
         title: title,
         creationDate: new Date(),
@@ -156,7 +156,7 @@ const Home = () => {
                 value={title}
                 className="p-3 rounded-md border w-64"
                 onChange={(e) => {
-                  setTitle(e.target.value.slice(0, 50));
+                  setTitle(e.target.value.slice(0, 70));
                 }}
                 placeholder="Tytuł zakładu"
               />

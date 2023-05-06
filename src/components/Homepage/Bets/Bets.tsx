@@ -8,6 +8,7 @@ import atomPNG from "../assets/popularbets/atom.png";
 import dicePNG from "../assets/popularbets/dice.png";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { getAllBets } from "@/server/api/queries";
+import dayjs from "dayjs";
 
 interface Bet {
   icon: string;
@@ -36,11 +37,19 @@ interface Bet {
 const Bets = () => {
   const [bets, loading, err] = useCollection(getAllBets());
 
+  const sortedBets = bets?.docs.sort((a, b) => {
+    return dayjs
+      .unix(a.data()?.creationDate?.seconds)
+      .isBefore(dayjs.unix(b.data()?.creationDate?.seconds))
+      ? 1
+      : -1;
+  });
+
   return (
     <div className="pt-16 mt-0.5 pb-4 pr-[23.5rem] pl-[22rem]">
       <MainSubheader />
       <div className="flex flex-col gap-3.5 mt-3.5 ">
-        {bets?.docs.map((bet, index) => {
+        {sortedBets?.map((bet, index) => {
           const betObj = {
             id: bet.id,
             icon: bet.data().icon,
