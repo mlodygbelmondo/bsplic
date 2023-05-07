@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { FiMenu } from "react-icons/fi";
 import { app } from "../server/api/firebase";
 import { getAuth } from "firebase/auth";
 import { useSignOut } from "react-firebase-hooks/auth";
@@ -23,6 +24,7 @@ import { useModal } from "./shared/useModal";
 import dayjs from "dayjs";
 import addData from "@/server/api/addData";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import MobileNavbar from "./MobileNavbar";
 type CurrentPage = "home" | "live" | "promo";
 
 interface NavProps {
@@ -31,12 +33,13 @@ interface NavProps {
 
 const Navbar = ({ currentPage }: NavProps) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
   const { user }: { user: User } = useAuthContext();
   const router = useRouter();
   const auth = getAuth(app);
 
   const now = dayjs();
-  const normalizedNow = now.format("DD-MM-YYYY");
+  const normalizedNow = now.format("DD.MM.YYYY");
 
   const [userData, loading, err] = useCollection(getUserById(user?.uid));
   const [isUserAdmin, setIsUserAdmin] = useState(false);
@@ -97,15 +100,14 @@ const Navbar = ({ currentPage }: NavProps) => {
   };
 
   return (
-    <nav className="bg-gradient2 text-white fixed left-0 top-0 w-full z-10">
-      <div className="flex justify-between items-center mx-4">
+    <nav className="bg-gradient2 text-white fixed h-12 left-0 top-0 w-full z-10">
+      <div className="flex justify-between h-full items-center mx-4">
         <div className="flex gap-3 items-center">
           <button onClick={() => router.asPath !== "/" && router.push("/")}>
             <span className="text-xl font-bold italic">BSPLIC.</span>
           </button>
-          <div className="hr"></div>
-          <div className="links">
-            <div className="flex justify-center items-center font-medium text-sm ">
+          <div className="links pl-3">
+            <div className="hidden xl:flex justify-center items-center font-medium text-sm ">
               <button
                 onClick={() => router.asPath !== "/" && router.push("/")}
                 className={`p-3.5 hover:bg-red-600 transition-colors ease-in duration-50 ${
@@ -142,8 +144,14 @@ const Navbar = ({ currentPage }: NavProps) => {
             </div>
           </div>
         </div>
+        <div className="flex xl:hidden">
+          <FiMenu
+            className="text-[26px]"
+            onClick={() => setIsMobileNavbarOpen(!isMobileNavbarOpen)}
+          />
+        </div>
         <div
-          className="pr-3 flex items-center gap-4 text-xs font-semibold"
+          className="pr-3 hidden xl:flex items-center gap-4 text-xs font-semibold"
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -181,6 +189,7 @@ const Navbar = ({ currentPage }: NavProps) => {
                 : "Czy chciałbyś odebrać dzienny bonus o wysokości 200zł?"}
             </p>
           </Modal>
+
           {isUserAdmin && (
             <button
               className="register text-sm p-2.5 hover:bg-[#d23131] rounded-lg transition-colors flex items-center gap-2"
@@ -235,6 +244,9 @@ const Navbar = ({ currentPage }: NavProps) => {
           </div>
         </div>
       </div>
+      {isMobileNavbarOpen && (
+        <MobileNavbar isMobileNavbarOpen={isMobileNavbarOpen} />
+      )}
     </nav>
   );
 };

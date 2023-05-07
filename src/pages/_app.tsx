@@ -69,6 +69,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
         <Toaster />
         <RouteGuard>
           <Head>
+            <title>BSPLIC</title>
             <link rel="bsplic icon" href="/bsplic-icon.ico" />
           </Head>
           {/* //TODO: Make ChosenBetsContext component and clean this out */}

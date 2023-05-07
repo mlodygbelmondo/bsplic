@@ -59,10 +59,13 @@ const Home = () => {
         categories: [category],
         date: date,
         hour: hour,
-        icon: "/popularbets/dice.png",
+        // icon: "/categories/school.png",
+        icon: "/categories/youtube.png",
+        //icon: "/popularbets/dice.png",
         subtitle: subtitle,
         title: title,
         creationDate: new Date(),
+        betsPlaced: 0,
       });
       createToast(TOAST_MESSAGES.betCreatedSuccessfully);
     } else {

@@ -147,7 +147,7 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
   };
 
   return (
-    <div className="right-bar-over fixed h-[calc(100%-6rem)] top-[4.5rem] right-8 w-80 border border-gray-100 rounded">
+    <div className="hidden md:block right-bar-over fixed h-[calc(100%-6rem)] top-[4.5rem] right-8 w-72 xl:w-80 border border-gray-100 rounded">
       <div
         className={`right-bar-container ${
           isCouponOpen ? "active" : ""
@@ -167,7 +167,7 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
           </h4>
           <div className="bg-gray-200 rounded-full">
             <button
-              className={`btn-single transition-colors ease-linear text-xs font-semibold rounded-full text-center py-2 pr-4 pl-[13px] bg-none w-[33%] ${
+              className={`btn-single transition-colors ease-linear text-xs font-semibold rounded-full text-center py-2 pr-4 pl-2   xl:pl-[13px] bg-none w-[33%] ${
                 currentBet === "bet-single" ? "bg-black text-white" : ""
               }`}
               onClick={() => {
