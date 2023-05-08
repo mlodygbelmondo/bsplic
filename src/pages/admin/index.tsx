@@ -318,16 +318,21 @@ const Home = () => {
           <div className="flex flex-col gap-7  items-center mt-4">
             {sortedBets?.map((bet) => (
               <div key={bet.id} className="flex flex-col gap-2">
-                <p className="pl-[0.5rem] font-bold text-lg">
-                  {
-                    users?.docs
-                      .find((user) => user.id === bet.data().userId)
-                      ?.data().displayName
-                  }
-                </p>
-                <div className="flex items-center justify-center gap-3">
+                <div className="flex items-center pl-2 gap-3">
+                  {" "}
+                  <p className="font-bold text-lg">
+                    {
+                      users?.docs
+                        .find((user) => user.id === bet.data().userId)
+                        ?.data().displayName
+                    }
+                  </p>
                   <button
-                    className="p-2 transition-colors font-semibold text-sm text-white rounded-lg bg-green-600 hover:bg-green-700"
+                    className={`p-2 transition-colors font-semibold text-sm text-white rounded-md bg-green-600 ${
+                      bet.data().betStatus !== "pending"
+                        ? "opacity-50"
+                        : "hover:bg-green-700"
+                    }`}
                     onClick={() => {
                       if (bet.data().betStatus === "pending") {
                         const userBalance = users?.docs
@@ -347,7 +352,11 @@ const Home = () => {
                     Wygrany
                   </button>
                   <button
-                    className="p-2 transition-colors font-semibold text-sm text-white rounded-lg bg-red-500 hover:bg-red-600"
+                    className={`p-2 transition-colors font-semibold text-sm text-white rounded-md bg-red-500 ${
+                      bet.data().betStatus !== "pending"
+                        ? "opacity-50"
+                        : "hover:bg-red-600"
+                    }`}
                     onClick={() => {
                       addData("bets_placed", bet.id, {
                         betStatus: "lost",
