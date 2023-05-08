@@ -9,6 +9,7 @@ import getData from "../../server/api/getData";
 import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
+
 import dayjs from "dayjs";
 import MyCoupon from "@/components/mycoupons/MyCoupon";
 import { createToast } from "@/utils/toasts";
@@ -324,6 +325,38 @@ const Home = () => {
                       ?.data().displayName
                   }
                 </p>
+                <div className="flex items-center justify-center gap-3">
+                  <button
+                    className="p-2 transition-colors font-semibold text-sm text-white rounded-lg bg-green-600 hover:bg-green-700"
+                    onClick={() => {
+                      if (bet.data().betStatus === "pending") {
+                        const userBalance = users?.docs
+                          .find((user) => user.id === bet.data().userId)
+                          ?.data().balance;
+                        const winnings =
+                          Number(bet.data().betAmount) * bet.data().betOdds;
+                        addData("users", bet.data().userId, {
+                          balance: Number(userBalance) + winnings,
+                        });
+                        addData("bets_placed", bet.id, {
+                          betStatus: "won",
+                        });
+                      }
+                    }}
+                  >
+                    Wygrany
+                  </button>
+                  <button
+                    className="p-2 transition-colors font-semibold text-sm text-white rounded-lg bg-red-500 hover:bg-red-600"
+                    onClick={() => {
+                      addData("bets_placed", bet.id, {
+                        betStatus: "lost",
+                      });
+                    }}
+                  >
+                    Przegrany
+                  </button>
+                </div>
                 <MyCoupon coupon={bet.data() as any} />
               </div>
             ))}

@@ -46,7 +46,13 @@ const MyCoupon = <Coupon extends CouponBasic>({
         <p className="text-gray-500 font-medium">
           {betType === "ako" ? "Łączony" : "Pojedynczy"}
         </p>
-        <p className="font-bold">{betStatus === "pending" && "Trwa"}</p>
+        {betStatus === "pending" && <p className="font-bold">Trwa</p>}
+        {betStatus === "lost" && (
+          <p className="font-bold text-red-500">Przegrany</p>
+        )}
+        {betStatus === "won" && (
+          <p className="font-bold text-green-500">Wygrany</p>
+        )}
       </div>
       {betType === "ako" ? (
         bets?.map((b) => (
