@@ -107,7 +107,7 @@ const BetCard = <Bet extends BetBasic>({ bet }: BetProps<Bet>) => {
   };
 
   return (
-    <div className="bet-card-container select-none bg-white grid grid-cols-[1.2fr_1.6fr] py-3.5 px-3.5 shadow-betcard rounded-lg cursor-pointer transition-colors hover:bg-[#f9f7f7]">
+    <div className="bet-card-container select-none bg-white grid grid-cols-[1.2fr_1.6fr] py-3.5 px-3.5 shadow-betcard rounded-lg xl:cursor-pointer transition-colors xl:hover:bg-[#f9f7f7]">
       <div className="left-bet-card-container">
         <div className="mb-1 flex justify-between">
           <div className="flex items-center gap-1">

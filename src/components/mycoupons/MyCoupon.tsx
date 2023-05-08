@@ -116,7 +116,7 @@ const MyCoupon = <Coupon extends CouponBasic>({
         </div>
       </div>
       <div className="px-3 py-2 text-[10px] text-gray-400">
-        Data złożenia: {dayjs.unix(betDate.seconds).format("DD.MM.YYYY HH:MM")}
+        Data złożenia: {dayjs.unix(betDate.seconds).format("DD.MM.YYYY HH:mm")}
       </div>
     </div>
   );
