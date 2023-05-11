@@ -348,11 +348,24 @@ const Home = () => {
                         const userBalance = users?.docs
                           .find((user) => user.id === bet.data().userId)
                           ?.data().balance;
-                        const winnings =
-                          Number(bet.data().betAmount) * bet.data().betOdds;
-                        addData("users", bet.data().userId, {
-                          balance: Number(userBalance) + winnings,
-                        });
+                        let odds =
+                          bet.data().betType === "single"
+                            ? bet.data().bet.betOdds
+                            : bet.data().betOdds;
+                        const winnings = Number(bet.data().betAmount) * odds;
+                        if (
+                          !isNaN(
+                            parseFloat(
+                              (Number(userBalance) + winnings).toFixed(2)
+                            )
+                          )
+                        )
+                          addData("users", bet.data().userId, {
+                            balance: parseFloat(
+                              (Number(userBalance) + winnings).toFixed(2)
+                            ),
+                          });
+                        else alert("NaN!");
                         addData("bets_placed", bet.id, {
                           betStatus: "won",
                         });

@@ -162,7 +162,7 @@ const Navbar = ({ currentPage }: NavProps) => {
           "
           >
             <FaPlus className="text-red-500 p-1 bg-white rounded-full text-xl" />
-            <p>{userAccount?.balance}&nbsp;zł</p>
+            <p>{userAccount?.balance.toFixed(2).replace(".", ",")}&nbsp;zł</p>
           </button>
           <Modal
             isVisible={isDailyBonusModalOpen}
