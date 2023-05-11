@@ -14,6 +14,9 @@ import dayjs from "dayjs";
 import MyCoupon from "@/components/mycoupons/MyCoupon";
 import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
+import deleteData from "@/server/api/deleteData";
+import BetCard from "@/components/Homepage/Bets/BetCard";
+import Link from "next/link";
 const Home = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -110,6 +113,8 @@ const Home = () => {
   }, [user]);
   const [users] = useCollection(getAllUsers());
   const [userBets] = useCollection(getAllPlacedBets());
+  const [isDeleteButtonEnabled, setIsDeleteButtonEnabled] = useState(false);
+
   const sortedBets = userBets?.docs.sort((a, b) => {
     return dayjs
       .unix(a.data().betDate.seconds)
@@ -306,6 +311,11 @@ const Home = () => {
             >
               Stwórz zakład
             </button>
+            <Link href="/admin/manage-bets">
+              <button className="px-8 py-3 font-semibold bg-green-600 text-white border rounded-md hover:bg-green-700 transition-colors">
+                Zarządzaj zakładami
+              </button>
+            </Link>
             <button
               type="button"
               onClick={() => {
@@ -322,76 +332,101 @@ const Home = () => {
               Wypełnij formularz do matury
             </button>
           </form>
+
           <h1 className="mt-10 text-2xl font-bold text-center">
             Postawione zakłady
           </h1>
           <div className="flex flex-col gap-7  items-center mt-4">
-            {sortedBets?.map((bet) => (
-              <div key={bet.id} className="flex flex-col gap-2">
-                <div className="flex items-center pl-2 gap-3">
-                  {" "}
-                  <p className="font-bold text-lg">
-                    {
-                      users?.docs
-                        .find((user) => user.id === bet.data().userId)
-                        ?.data().displayName
-                    }
-                  </p>
-                  <button
-                    className={`p-2 transition-colors font-semibold text-sm text-white rounded-md bg-green-600 ${
-                      bet.data().betStatus !== "pending"
-                        ? "opacity-50"
-                        : "hover:bg-green-700"
-                    }`}
-                    onClick={() => {
-                      if (bet.data().betStatus === "pending") {
-                        const userBalance = users?.docs
-                          .find((user) => user.id === bet.data().userId)
-                          ?.data().balance;
-                        let odds =
-                          bet.data().betType === "single"
-                            ? bet.data().bet.betOdds
-                            : bet.data().betOdds;
-                        const winnings = Number(bet.data().betAmount) * odds;
-                        if (
-                          !isNaN(
-                            parseFloat(
-                              (Number(userBalance) + winnings).toFixed(2)
+            {sortedBets?.map((bet) => {
+              return (
+                <div
+                  key={bet.id}
+                  className="flex flex-col gap-2"
+                  onDoubleClick={() =>
+                    setIsDeleteButtonEnabled(!isDeleteButtonEnabled)
+                  }
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center pl-2 gap-3">
+                      {" "}
+                      <p className="font-bold text-lg">
+                        {
+                          users?.docs
+                            .find((user) => user.id === bet.data().userId)
+                            ?.data().displayName
+                        }
+                      </p>
+                      <button
+                        className={`p-2 transition-colors font-semibold text-sm text-white rounded-md bg-green-600 ${
+                          bet.data().betStatus !== "pending"
+                            ? "opacity-50"
+                            : "hover:bg-green-700"
+                        }`}
+                        onClick={() => {
+                          if (bet.data().betStatus === "pending") {
+                            const userBalance = users?.docs
+                              .find((user) => user.id === bet.data().userId)
+                              ?.data().balance;
+                            let odds =
+                              bet.data().betType === "single"
+                                ? bet.data().bet.betOdds
+                                : bet.data().betOdds;
+                            const winnings =
+                              Number(bet.data().betAmount) * odds;
+                            if (
+                              !isNaN(
+                                parseFloat(
+                                  (Number(userBalance) + winnings).toFixed(2)
+                                )
+                              )
                             )
-                          )
-                        )
-                          addData("users", bet.data().userId, {
-                            balance: parseFloat(
-                              (Number(userBalance) + winnings).toFixed(2)
-                            ),
+                              addData("users", bet.data().userId, {
+                                balance: parseFloat(
+                                  (Number(userBalance) + winnings).toFixed(2)
+                                ),
+                              });
+                            else alert("NaN!");
+                            addData("bets_placed", bet.id, {
+                              betStatus: "won",
+                            });
+                          }
+                        }}
+                      >
+                        Wygrany
+                      </button>
+                      <button
+                        className={`p-2 transition-colors font-semibold text-sm text-white rounded-md bg-red-500 ${
+                          bet.data().betStatus !== "pending"
+                            ? "opacity-50"
+                            : "hover:bg-red-600"
+                        }`}
+                        onClick={() => {
+                          addData("bets_placed", bet.id, {
+                            betStatus: "lost",
                           });
-                        else alert("NaN!");
-                        addData("bets_placed", bet.id, {
-                          betStatus: "won",
-                        });
-                      }
-                    }}
-                  >
-                    Wygrany
-                  </button>
-                  <button
-                    className={`p-2 transition-colors font-semibold text-sm text-white rounded-md bg-red-500 ${
-                      bet.data().betStatus !== "pending"
-                        ? "opacity-50"
-                        : "hover:bg-red-600"
-                    }`}
-                    onClick={() => {
-                      addData("bets_placed", bet.id, {
-                        betStatus: "lost",
-                      });
-                    }}
-                  >
-                    Przegrany
-                  </button>
+                        }}
+                      >
+                        Przegrany
+                      </button>
+                    </div>
+                    <button
+                      className={`p-2 transition-colors font-semibold text-sm  rounded-md  ${
+                        !isDeleteButtonEnabled
+                          ? "bg-gray-300 text-gray-400"
+                          : "bg-red-700 hover:bg-red-800 text-white"
+                      }`}
+                      onClick={() => {
+                        deleteData("bets_placed", bet.id);
+                      }}
+                      disabled={!isDeleteButtonEnabled}
+                    >
+                      Usuń
+                    </button>
+                  </div>
+                  <MyCoupon coupon={bet.data() as any} />
                 </div>
-                <MyCoupon coupon={bet.data() as any} />
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
