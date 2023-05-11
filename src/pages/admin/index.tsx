@@ -27,6 +27,7 @@ const Home = () => {
   const [bet2Percents, setBet2Percents] = useState("");
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
+  const [iconPath, setIconPath] = useState("");
   const [userAdminRole, setUserAdminRole] = useState<
     "" | "admin" | "moderator"
   >("");
@@ -60,9 +61,9 @@ const Home = () => {
         categories: [category],
         date: date,
         hour: hour,
-        //icon: "/categories/school.png",
+        icon: iconPath,
         //icon: "/categories/youtube.png",
-        icon: "/popularbets/dice.png",
+        //icon: "/popularbets/dice.png",
         //icon: "/popularbets/shooting.png",
         subtitle: subtitle,
         title: title,
@@ -287,6 +288,15 @@ const Home = () => {
                   setHour(e.target.value.slice(0, 5));
                 }}
                 placeholder="Godzina zakładu"
+              />
+              <input
+                type="text"
+                value={iconPath}
+                className="p-3 rounded-md border w-64"
+                onChange={(e) => {
+                  setIconPath(e.target.value);
+                }}
+                placeholder="Ścieżka ikonki zakładu"
               />
             </div>
 
