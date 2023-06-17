@@ -125,7 +125,7 @@ const Navbar = ({ currentPage }: NavProps) => {
                   router.asPath === "/live" ? "" : "text-[#ffffffaf]"
                 }`}
               >
-                Na żywo{" "}
+                Na żywo
                 <div className="absolute top-1 right-[2px] h-[0.875rem] px-[5px] rounded-2xl flex justify-center items-center bg-black text-[10px] ">
                   <p className="text-white">0</p>
                 </div>
@@ -245,7 +245,18 @@ const Navbar = ({ currentPage }: NavProps) => {
         </div>
       </div>
       {isMobileNavbarOpen && (
-        <MobileNavbar isMobileNavbarOpen={isMobileNavbarOpen} />
+        <MobileNavbar
+          setIsMobileNavbarOpen={setIsMobileNavbarOpen}
+          isDailyBonusClaimed={isDailyBonusClaimed}
+          claimBonus={claimBonus}
+          isDailyBonusModalOpen={isDailyBonusModalOpen}
+          normalizedNow={normalizedNow}
+          toggleDailyBonusModalVisibility={toggleDailyBonusModalVisibility}
+          userAccount={userAccount}
+          isUserAdmin={isUserAdmin}
+          loggingOut={loggingOut}
+          user={user}
+        />
       )}
     </nav>
   );
