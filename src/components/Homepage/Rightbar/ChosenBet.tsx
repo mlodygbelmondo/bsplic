@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import type { BetType } from "./RightBar";
 import Image from "next/image";
 import { IoCloseSharp } from "react-icons/io5";
 import { useChosenBetsContext } from "@/pages/_app";
+import { BET_TYPE } from "@/utils/consts";
 
 interface OwnProps {
   title: string;
@@ -10,7 +10,7 @@ interface OwnProps {
   bet: string;
   betOdds: number;
   icon: string;
-  currentBet: BetType;
+  currentBet: keyof typeof BET_TYPE;
   betId: string;
 }
 
@@ -72,12 +72,12 @@ const ChosenBet = ({
         <p className="font-bold text-[13px]">{bet}</p>
       </div>
       <div className="p-3 flex items-center justify-start rounded-bl rounded-br">
-        {currentBet === "bet-ako" && (
+        {currentBet === BET_TYPE.BET_AKO && (
           <p className="text-[13px] font-bold">
             {betOdds.toFixed(2).replace(".", ",")}
           </p>
         )}
-        {currentBet === "bet-single" && (
+        {currentBet === BET_TYPE.BET_SINGLE && (
           <div className="flex gap-3 items-center">
             <div className="flex flex-col text-left">
               <p className="text-[12px] font-medium">Kurs</p>

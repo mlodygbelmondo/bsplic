@@ -14,15 +14,22 @@ import { useAuthContext } from "@/context/AuthContext";
 import addData from "@/server/api/addData";
 import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
-
-export type BetType = "bet-single" | "bet-ako" | "bet-system";
+import { BET_TYPE } from "@/utils/consts";
 
 const RightBar = () => {
   const { chosenBets, chosenBetSum, setChosenBetSum, setChosenBets } =
     useChosenBetsContext();
-  const [currentBet, setCurrentBet] = useState<BetType>("bet-single");
+  const [currentBet, setCurrentBet] = useState<keyof typeof BET_TYPE>(
+    BET_TYPE.BET_AKO
+  );
   const [totalOdds, setTotalOdds] = useState(0);
   const [inputValue, setInputValue] = useState("");
+
+  const setSingleBet = () => setCurrentBet(BET_TYPE.BET_SINGLE);
+
+  const setAkoBet = () => setCurrentBet(BET_TYPE.BET_AKO);
+
+  const setSystemBet = () => setCurrentBet(BET_TYPE.BET_SYSTEM);
 
   const akoWinningsSum =
     inputValue === ""
@@ -53,15 +60,15 @@ const RightBar = () => {
   }, [chosenBets]);
 
   const isBetButtonDisabled =
-    currentBet === "bet-system" ||
-    (currentBet === "bet-ako" &&
+    currentBet === BET_TYPE.BET_SYSTEM ||
+    (currentBet === BET_TYPE.BET_AKO &&
       (chosenBets.length < 2 ||
         inputValue === "" ||
         inputValue === "0" ||
         userAccount?.balance < inputValue ||
         Number(inputValue) < 1)) ||
     chosenBets.length === 0 ||
-    (currentBet === "bet-single" &&
+    (currentBet === BET_TYPE.BET_SINGLE &&
       (chosenBetSum.reduce((a, b) => a + b.betSum, 0) === 0 ||
         userAccount?.balance < chosenBetSum.reduce((a, b) => a + b.betSum, 0) ||
         chosenBetSum.length !== chosenBets.length ||
@@ -71,7 +78,7 @@ const RightBar = () => {
     const test = chosenBetSum.filter((b) => b.betSum === 0);
     console.log(test);
 
-    if (currentBet === "bet-single") {
+    if (currentBet === BET_TYPE.BET_SINGLE) {
       for (const bet of chosenBets) {
         const betId = uuidv4();
         const betAmount = chosenBetSum.find(
@@ -107,7 +114,7 @@ const RightBar = () => {
       setChosenBetSum([]);
       setChosenBets([]);
       router.push("/");
-    } else if (currentBet === "bet-ako") {
+    } else if (currentBet === BET_TYPE.BET_AKO) {
       const betId = uuidv4();
       const betData = {
         betId,
@@ -134,9 +141,7 @@ const RightBar = () => {
       setChosenBetSum([]);
       setChosenBets([]);
       router.push("/");
-    } else if (currentBet === "bet-system") {
-      router.push("/");
-    }
+    } else if (currentBet === BET_TYPE.BET_SYSTEM) router.push("/");
   };
 
   const { isCouponOpen, setIsCouponOpen } = useChosenBetsContext();
@@ -163,43 +168,37 @@ const RightBar = () => {
           <div className="bg-gray-200 rounded-full">
             <button
               className={`btn-single transition-colors ease-linear text-xs font-semibold rounded-full text-center py-2 pr-4 pl-2   xl:pl-[13px] bg-none w-[33%] ${
-                currentBet === "bet-single" ? "bg-black text-white" : ""
+                currentBet === BET_TYPE.BET_SINGLE ? "bg-black text-white" : ""
               }`}
-              onClick={() => {
-                setCurrentBet("bet-single");
-              }}
+              onClick={setSingleBet}
             >
               Pojedyncze
             </button>
             <button
               className={`btn-ako text-xs transition-colors ease-linear font-semibold text-center py-2 rounded-full pr-4 pl-3 w-[33%] ${
-                currentBet === "bet-ako" ? "bg-black text-white" : ""
+                currentBet === BET_TYPE.BET_AKO ? "bg-black text-white" : ""
               }`}
-              onClick={() => {
-                setCurrentBet("bet-ako");
-              }}
+              onClick={setAkoBet}
             >
               AKO
             </button>
             <button
               className={`btn-system text-xs transition-colors ease-linear font-semibold text-center py-2 pr-3 rounded-full pl-4 w-[34%] ${
-                currentBet === "bet-system" ? "bg-black text-white" : ""
+                currentBet === BET_TYPE.BET_SYSTEM ? "bg-black text-white" : ""
               }`}
-              onClick={() => {
-                setCurrentBet("bet-system");
-              }}
+              onClick={setSystemBet}
             >
               System
             </button>
           </div>
         </div>
         <div className="h-full shadow-xl p-4 flex flex-col gap-3 overflow-auto">
-          {currentBet === "bet-system" && <SystemNotAvailable />}
-          {chosenBets.length === 0 && currentBet !== "bet-system" && (
+          {currentBet === BET_TYPE.BET_SYSTEM && <SystemNotAvailable />}
+          {chosenBets.length === 0 && currentBet !== BET_TYPE.BET_SYSTEM && (
             <NoBetsChosen />
           )}
           {chosenBets.length > 0 &&
-            currentBet !== "bet-system" &&
+            currentBet !== BET_TYPE.BET_SYSTEM &&
             chosenBets.map((bet, index) => (
               <ChosenBet
                 key={index}
@@ -214,7 +213,7 @@ const RightBar = () => {
             ))}
         </div>
         <div className="right-bar-footer-container flex flex-col py-2 px-4 rounded-bl-lg rounded-br-lg bg-white gap-0.5 text-sm shadow-rightcard">
-          {currentBet === "bet-ako" ? (
+          {currentBet === BET_TYPE.BET_AKO ? (
             <div className="flex justify-between mb-1.5">
               <div className="flex gap-1.5 items-center">
                 <p className="font-medium text-sm">Kurs</p>
@@ -258,7 +257,7 @@ const RightBar = () => {
             <div className="top-container flex justify-between text-gray-400 font-normal">
               <p>Łączna stawka:</p>
               <span className="font-normal">
-                {currentBet === "bet-single"
+                {currentBet === BET_TYPE.BET_SINGLE
                   ? chosenBetSum
                       .reduce((a, b) => a + b.betSum, 0)
                       .toFixed(2)
@@ -273,14 +272,14 @@ const RightBar = () => {
             <p className="text-xs font-bold">Potencjalna wygrana:</p>
             <BsQuestionCircle className="cursor-pointer" />
             <span className="text-red-500 font-extrabold">
-              {currentBet === "bet-single" &&
+              {currentBet === BET_TYPE.BET_SINGLE &&
                 chosenBetSum
                   .reduce((a, b) => a + b.betSum * b.betOdds, 0)
                   .toFixed(2)
                   .replace(".", ",")}
-              {currentBet === "bet-ako" &&
+              {currentBet === BET_TYPE.BET_AKO &&
                 akoWinningsSum.toFixed(2).replace(".", ",")}
-              {currentBet === "bet-system" && "0,00"} zł
+              {currentBet === BET_TYPE.BET_SYSTEM && "0,00"} zł
             </span>
           </div>
           <div className="bottom-container mb-1 flex justify-between items-center">
