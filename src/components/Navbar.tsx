@@ -244,20 +244,20 @@ const Navbar = ({ currentPage }: NavProps) => {
           </div>
         </div>
       </div>
-      {isMobileNavbarOpen && (
-        <MobileNavbar
-          setIsMobileNavbarOpen={setIsMobileNavbarOpen}
-          isDailyBonusClaimed={isDailyBonusClaimed}
-          claimBonus={claimBonus}
-          isDailyBonusModalOpen={isDailyBonusModalOpen}
-          normalizedNow={normalizedNow}
-          toggleDailyBonusModalVisibility={toggleDailyBonusModalVisibility}
-          userAccount={userAccount}
-          isUserAdmin={isUserAdmin}
-          loggingOut={loggingOut}
-          user={user}
-        />
-      )}
+
+      <MobileNavbar
+        isMobileNavbarOpen={isMobileNavbarOpen}
+        setIsMobileNavbarOpen={setIsMobileNavbarOpen}
+        isDailyBonusClaimed={isDailyBonusClaimed}
+        claimBonus={claimBonus}
+        isDailyBonusModalOpen={isDailyBonusModalOpen}
+        normalizedNow={normalizedNow}
+        toggleDailyBonusModalVisibility={toggleDailyBonusModalVisibility}
+        userAccount={userAccount}
+        isUserAdmin={isUserAdmin}
+        loggingOut={loggingOut}
+        user={user}
+      />
     </nav>
   );
 };

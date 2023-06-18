@@ -107,7 +107,7 @@ const BetCard = <Bet extends BetBasic>({ bet }: BetProps<Bet>) => {
   };
 
   return (
-    <div className="bet-card-container select-none bg-white grid grid-cols-[1.2fr_1.6fr] py-3.5 px-3.5 shadow-betcard rounded-lg xl:cursor-pointer transition-colors xl:hover:bg-[#f9f7f7]">
+    <div className="bet-card-container select-none bg-white flex flex-col md:grid md:grid-cols-[1.2fr_1.6fr] py-3.5 px-3.5 shadow-betcard rounded-lg xl:cursor-pointer transition-colors xl:hover:bg-[#f9f7f7]">
       <div className="left-bet-card-container">
         <div className="mb-1 flex justify-between">
           <div className="flex items-center gap-1">
@@ -115,20 +115,19 @@ const BetCard = <Bet extends BetBasic>({ bet }: BetProps<Bet>) => {
             <p className="text-[0.6rem] text-gray-500">{subtitle}</p>
           </div>
 
-          <div className="text-[0.6rem] text-gray-500 pr-5 flex items-center gap-1.5">
-            <p>{date}</p>
-            <p>{hour}</p>
+          <div className="text-[0.6rem] text-gray-500 md:pr-4 flex items-center gap-1.5">
+            {date} {hour}
           </div>
         </div>
 
         <h5 className="font-bold">{title}</h5>
       </div>
-      <div className="">
-        <div className="mb-1">
-          <p className="text-[0.6rem] text-gray-500">{betLabel}</p>
-        </div>
-        <div className="w-full flex justify-evenly gap-3">
-          <div className="left-bets-buttons-container w-1/2">
+      <div>
+        <p className="hidden md:block text-[0.6rem] text-gray-500">
+          {betLabel}
+        </p>
+        <div className="w-full my-1 flex justify-evenly gap-3">
+          <div className="w-1/2">
             <button
               onClick={() => {
                 handleBetClick(1);

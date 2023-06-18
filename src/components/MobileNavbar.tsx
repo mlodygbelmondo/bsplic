@@ -10,6 +10,7 @@ import { MdCreate } from "react-icons/md";
 import { IoLogOutOutline, IoShieldSharp } from "react-icons/io5";
 
 interface OwnProps {
+  isMobileNavbarOpen: boolean;
   setIsMobileNavbarOpen: (isMobileNavbarOpen: boolean) => void;
   userAccount: DocumentData | undefined;
   toggleDailyBonusModalVisibility: () => void;
@@ -23,6 +24,7 @@ interface OwnProps {
 }
 
 const MobileNavbar = ({
+  isMobileNavbarOpen,
   setIsMobileNavbarOpen,
   userAccount,
   toggleDailyBonusModalVisibility,
@@ -39,12 +41,22 @@ const MobileNavbar = ({
   const router = useRouter();
 
   return (
-    <div className="fixed w-full h-full left-0 top-0">
+    <div
+      className={`fixed w-full h-full left-0 top-0 ${
+        isMobileNavbarOpen ? "" : "left-[100%]"
+      }`}
+    >
       <div
-        className="bg-black fixed left-0 top-0 z-10 opacity-70 w-full h-full"
+        className={`bg-black fixed left-0 top-0 z-10 opacity-70 w-full h-full ${
+          isMobileNavbarOpen ? "" : "left-[100%]"
+        }`}
         onClick={closeMobileNavbar}
       />
-      <div className="bg-red-700 w-[70%] fixed flex flex-col items-center justify-between right-0 top-0 z-20 h-full p-4">
+      <div
+        className={`bg-red-700 w-[70%] fixed flex flex-col items-center justify-between ${
+          isMobileNavbarOpen ? "right-0" : "-right-[70%]"
+        } top-0 transition-all z-20 h-full p-4`}
+      >
         <div className="flex w-full flex-col items-center">
           <div className="flex w-full justify-between items-center">
             <span className="text-2xl font-bold italic flex items-center justify-center">

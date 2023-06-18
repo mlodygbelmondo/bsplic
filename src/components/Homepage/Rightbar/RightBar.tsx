@@ -148,7 +148,7 @@ const RightBar = () => {
   return (
     <div
       className={`md:block h-full left-0 md:bottom-auto ${
-        isCouponOpen ? "bottom-0" : "-bottom-[900px]"
+        isCouponOpen ? "bottom-0" : "-bottom-[100%]"
       } w-full z-10 right-bar-over md:left-auto fixed transition-all duration-300 md:h-[calc(100%-6rem)] md:top-[4.5rem] md:right-8 md:w-72 xl:w-80 border border-gray-100 rounded`}
     >
       <div
