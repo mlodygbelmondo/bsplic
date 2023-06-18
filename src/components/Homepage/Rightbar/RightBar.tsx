@@ -147,7 +147,7 @@ const RightBar = () => {
     <div
       className={`md:block h-full left-0 md:bottom-auto ${
         isCouponOpen ? "bottom-0" : "-bottom-[100%]"
-      } w-full z-10 md:z-0 right-bar-over md:left-auto fixed transition-all duration-300 md:h-[calc(100%-6rem)] md:top-[4.5rem] md:right-8 md:w-72 xl:w-80 border border-gray-100 rounded`}
+      } w-full z-10 md:z-0 right-bar-over md:left-auto fixed transition-all md:h-[calc(100%-6rem)] md:top-[4.5rem] md:right-8 md:w-72 xl:w-80 border border-gray-100 rounded`}
     >
       <div
         className={`right-bar-container flex bg-white rounded-md flex-col justify-between h-full`}

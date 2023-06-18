@@ -38,7 +38,6 @@ const MyCoupon = <Coupon extends CouponBasic>({
     betStatus,
     userId,
   } = coupon;
-  //TODO: Add bet date
 
   return (
     <div className="bg-[#fffefe] w-full md:w-[600px] text-[13px] rounded-2xl flex-col flex ">
@@ -65,7 +64,6 @@ const MyCoupon = <Coupon extends CouponBasic>({
                 <Image src={b.icon} alt="Icon Image" width={16} height={16} />
                 <p className="font-bold text-[15px] text-gray-900">{b.title}</p>
               </div>
-              {/* <div>{b.betId}</div> */}
             </div>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1.5">
@@ -85,7 +83,6 @@ const MyCoupon = <Coupon extends CouponBasic>({
               <Image src={bet.icon} alt="Icon Image" width={16} height={16} />
               <p className="font-bold text-[15px] text-gray-900">{bet.title}</p>
             </div>
-            {/* <div>{bet.betId}</div> */}
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1.5">
