@@ -7,7 +7,7 @@ const Promotionpage = () => {
     <div className="promotionpage">
       <Sidebar />
       <PromotionpageMain />
-      <RightBar setIsCouponOpen={() => {}} isCouponOpen={false} />
+      <RightBar />
     </div>
   );
 };

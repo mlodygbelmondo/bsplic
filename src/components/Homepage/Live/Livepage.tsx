@@ -7,7 +7,7 @@ const Livepage = () => {
     <div className="livepage">
       <Sidebar />
       <LivepageMain />
-      <RightBar setIsCouponOpen={() => {}} isCouponOpen={false} />
+      <RightBar />
     </div>
   );
 };
