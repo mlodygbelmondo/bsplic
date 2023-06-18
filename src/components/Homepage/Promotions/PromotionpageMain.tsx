@@ -5,10 +5,10 @@ import Link from "next/link";
 
 const PromotionpageMain = () => {
   return (
-    <div className="flex justify-center flex-col gap-2 items-center pt-44">
-      <Image src="/sad.png" alt="Sad image" width={160} height={160} />
-      <h4 className="text-3xl font-bold mb-1">Nic tu nie ma!</h4>
-      <p className="text-gray-600 font-medium mb-1">
+    <div className="flex h-screen -translate-y-32 justify-center flex-col gap-2 items-center pt-44 px">
+      <Image src="/sad.png" alt="Sad image" width={96} height={96} />
+      <h4 className="text-xl md:text-2xl font-bold">Nic tu nie ma!</h4>
+      <p className="text-gray-600 text-center text-sm md:text-base font-medium mb-1 md:px-0 px-16">
         Aktualnie nie ma żadnych promocji.
       </p>
       <Link href="/">

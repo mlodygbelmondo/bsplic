@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { FiMenu } from "react-icons/fi";
 import { app } from "../server/api/firebase";
 import { getAuth } from "firebase/auth";
@@ -23,7 +22,6 @@ import Modal from "./shared/Modal";
 import { useModal } from "./shared/useModal";
 import dayjs from "dayjs";
 import addData from "@/server/api/addData";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import MobileNavbar from "./MobileNavbar";
 type CurrentPage = "home" | "live" | "promo";
 
@@ -41,8 +39,9 @@ const Navbar = ({ currentPage }: NavProps) => {
   const now = dayjs();
   const normalizedNow = now.format("DD.MM.YYYY");
 
-  const [userData, loading, err] = useCollection(getUserById(user?.uid));
+  const [userData] = useCollection(getUserById(user?.uid));
   const [isUserAdmin, setIsUserAdmin] = useState(false);
+
   // useEffect(() => {
   //   const getUserData = async () => {
   //     return (await getData("users", user)).result?.data();
@@ -56,11 +55,15 @@ const Navbar = ({ currentPage }: NavProps) => {
   // console.log(userData?.docs[0]?.data());
   // console.log(admins?.docs[0]?.data());
 
-  const [signOut, signOutLoading, signOutError] = useSignOut(auth);
+  const [signOut] = useSignOut(auth);
 
-  document.addEventListener("click", (e) => {
-    setIsUserMenuOpen(false);
-  });
+  const closeUserMenu = () => setIsUserMenuOpen(false);
+
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
+
+  const toggleMobileNavbar = () => setIsMobileNavbarOpen(!isMobileNavbarOpen);
+
+  document.addEventListener("click", closeUserMenu);
 
   useEffect(() => {
     const getAdmins = async () => {
@@ -116,7 +119,6 @@ const Navbar = ({ currentPage }: NavProps) => {
               >
                 Zakłady
               </button>
-
               <button
                 onClick={() =>
                   router.asPath !== "/live" && router.push("/live")
@@ -144,11 +146,16 @@ const Navbar = ({ currentPage }: NavProps) => {
             </div>
           </div>
         </div>
-        <div className="flex xl:hidden">
-          <FiMenu
-            className="text-[26px]"
-            onClick={() => setIsMobileNavbarOpen(!isMobileNavbarOpen)}
-          />
+        <div className="flex items-center gap-4 xl:hidden">
+          <button
+            onClick={toggleDailyBonusModalVisibility}
+            className="flex gap-1 items-center my-3 text-xs font-semibold bg-red-800 p-1 rounded-full
+          "
+          >
+            <FaPlus className="text-red-500 p-1 bg-white rounded-full text-xl" />
+            <p>{userAccount?.balance.toFixed(2).replace(".", ",")}&nbsp;zł</p>
+          </button>
+          <FiMenu className="text-[26px]" onClick={toggleMobileNavbar} />
         </div>
         <div
           className="pr-3 hidden xl:flex items-center gap-4 text-xs font-semibold"
@@ -189,7 +196,6 @@ const Navbar = ({ currentPage }: NavProps) => {
                 : "Czy chciałbyś odebrać dzienny bonus o wysokości 200zł?"}
             </p>
           </Modal>
-
           {isUserAdmin && (
             <button
               className="register text-sm p-2.5 hover:bg-[#d23131] rounded-lg transition-colors flex items-center gap-2"
@@ -223,7 +229,7 @@ const Navbar = ({ currentPage }: NavProps) => {
           <div>
             <button
               className="login text-sm relative p-2.5 hover:bg-[#e13b3b] rounded-lg transition-colors flex items-center gap-2"
-              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              onClick={toggleUserMenu}
             >
               {user?.photoURL &&
               user?.providerData[0].providerId !== "facebook.com" ? (
@@ -244,19 +250,11 @@ const Navbar = ({ currentPage }: NavProps) => {
           </div>
         </div>
       </div>
-
       <MobileNavbar
         isMobileNavbarOpen={isMobileNavbarOpen}
         setIsMobileNavbarOpen={setIsMobileNavbarOpen}
-        isDailyBonusClaimed={isDailyBonusClaimed}
-        claimBonus={claimBonus}
-        isDailyBonusModalOpen={isDailyBonusModalOpen}
-        normalizedNow={normalizedNow}
-        toggleDailyBonusModalVisibility={toggleDailyBonusModalVisibility}
-        userAccount={userAccount}
         isUserAdmin={isUserAdmin}
         loggingOut={loggingOut}
-        user={user}
       />
     </nav>
   );

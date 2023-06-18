@@ -86,7 +86,7 @@ const Home = () => {
         <meta name="description" content="Bsplic" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="pt-[4.5rem] px-[24rem]">
+      <div className="pt-[4.5rem] px-2 md:px-[24rem]">
         <h2 className="text-center text-2xl font-bold pb-4">
           Propozycja zakładu
         </h2>

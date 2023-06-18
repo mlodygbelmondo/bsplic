@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 import { FaShoppingCart } from "react-icons/fa";
 import { BsQuestionCircle } from "react-icons/bs";
@@ -8,8 +7,7 @@ import SystemNotAvailable from "./SystemNotAvailable";
 import NoBetsChosen from "./NoBetsChosen";
 import ChosenBet from "./ChosenBet";
 import { useChosenBetsContext } from "@/pages/_app";
-import { User, getAuth } from "firebase/auth";
-import { app } from "@/server/api/firebase";
+import { User } from "firebase/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { getUserById } from "@/server/api/queries";
 import { useAuthContext } from "@/context/AuthContext";

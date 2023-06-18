@@ -54,7 +54,7 @@ const BetCardEditable = ({
   setBetLabel,
 }: OwnProps) => {
   return (
-    <div className="bet-card-container select-none bg-white grid grid-cols-[1.2fr_1.6fr] py-3.5 px-3.5 shadow-betcard rounded-lg transition-colors">
+    <div className="bet-card-container select-none bg-white flex flex-col md:grid md:grid-cols-[1.2fr_1.6fr] py-3.5 px-3.5 shadow-betcard rounded-lg transition-colors">
       <div className="left-bet-card-container">
         <div className="mb-1 flex justify-between">
           <div className="flex items-center gap-1">
@@ -103,7 +103,7 @@ const BetCardEditable = ({
       <div className="flex flex-col">
         <input
           type="text"
-          className="text-[0.6rem] mb-1  text-gray-500 focus:outline-none max-w-[11rem]"
+          className="text-[0.6rem] mb-1 hidden md:block text-gray-500 focus:outline-none max-w-[11rem]"
           placeholder="Etykieta zakładu"
           onChange={(e) => {
             setBetLabel(e.target.value.slice(0, 30));

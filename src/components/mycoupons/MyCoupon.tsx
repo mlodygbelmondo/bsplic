@@ -41,7 +41,7 @@ const MyCoupon = <Coupon extends CouponBasic>({
   //TODO: Add bet date
 
   return (
-    <div className="bg-[#fffefe] w-[600px]  text-[13px] rounded-2xl flex-col flex ">
+    <div className="bg-[#fffefe] w-full md:w-[600px] text-[13px] rounded-2xl flex-col flex ">
       <div className="flex items-center  justify-between p-3 border-b border-gray-200">
         <p className="text-gray-500 font-medium">
           {betType === "ako" ? "Łączony" : "Pojedynczy"}
