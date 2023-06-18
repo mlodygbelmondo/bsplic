@@ -19,23 +19,18 @@ import { TOAST_MESSAGES } from "@/utils/toastMessages";
 
 export type BetType = "bet-single" | "bet-ako" | "bet-system";
 
-interface RightbarProps {
-  setIsCouponOpen?: Function;
-  isCouponOpen?: boolean;
-}
-
-const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
+const RightBar = () => {
   const { chosenBets, chosenBetSum, setChosenBetSum, setChosenBets } =
     useChosenBetsContext();
   const [currentBet, setCurrentBet] = useState<BetType>("bet-single");
   const [totalOdds, setTotalOdds] = useState(0);
   const [inputValue, setInputValue] = useState("");
+
   const akoWinningsSum =
     inputValue === ""
       ? 0
       : chosenBets.reduce((a, b) => a * b.betOdds, 1) * parseFloat(inputValue);
 
-  const auth = getAuth(app);
   const { user }: { user: User } = useAuthContext();
 
   const [userData, loading, err] = useCollection(getUserById(user?.uid));
@@ -146,22 +141,24 @@ const RightBar = ({ setIsCouponOpen, isCouponOpen = false }: RightbarProps) => {
     }
   };
 
+  const { isCouponOpen, setIsCouponOpen } = useChosenBetsContext();
+
+  const closeCoupon = () => setIsCouponOpen(false);
+
   return (
-    <div className="hidden md:block right-bar-over fixed h-[calc(100%-6rem)] top-[4.5rem] right-8 w-72 xl:w-80 border border-gray-100 rounded">
+    <div
+      className={`md:block h-full left-0 md:bottom-auto ${
+        isCouponOpen ? "bottom-0" : "-bottom-[900px]"
+      } w-full z-10 right-bar-over md:left-auto fixed transition-all duration-300 md:h-[calc(100%-6rem)] md:top-[4.5rem] md:right-8 md:w-72 xl:w-80 border border-gray-100 rounded`}
+    >
       <div
-        className={`right-bar-container ${
-          isCouponOpen ? "active" : ""
-        } flex bg-white rounded-md flex-col justify-between h-full`}
+        className={`right-bar-container flex bg-white rounded-md flex-col justify-between h-full`}
       >
         <div className="right-bar-header-container flex flex-col gap-2 rounded-tl-lg rounded-tr-lg py-3 px-4 shadow-rightcard">
-          <div className="mobile-container hidden">
-            <div
-              className="mobile-slider"
-              onClick={() => {
-                // setIsCouponOpen(false);
-              }}
-            ></div>
-          </div>
+          <button
+            className="md:hidden h-1 w-28 bg-gray-200 rounded-full fixed left-0 ml-auto right-0 mr-auto"
+            onClick={closeCoupon}
+          />
           <h4 className="flex items-center gap-1 text-sm font-bold">
             <FaShoppingCart /> Kupon
           </h4>

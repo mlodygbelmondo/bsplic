@@ -11,6 +11,7 @@ import { AuthContextProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { Montserrat } from "next/font/google";
+import MobileCouponCart from "@/components/shared/MobileCouponCart";
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Montserrat({ subsets: ["latin"] });
@@ -38,11 +39,15 @@ const ChosenBetsContext = React.createContext<{
   setChosenBets: (_: ChosenBet[]) => void;
   chosenBetSum: ChosenBetSum[];
   setChosenBetSum: (_: ChosenBetSum[]) => void;
+  isCouponOpen: boolean;
+  setIsCouponOpen: (_: boolean) => void;
 }>({
   chosenBets: [],
   setChosenBets: () => {},
   chosenBetSum: [],
   setChosenBetSum: () => {},
+  isCouponOpen: false,
+  setIsCouponOpen: () => {},
 });
 
 const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
@@ -51,6 +56,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
 }: AppLayoutProps) => {
   const [chosenBets, setChosenBets] = useState<ChosenBet[]>([]);
   const [chosenBetSum, setChosenBetSum] = useState<ChosenBetSum[]>([]);
+  const [isCouponOpen, setIsCouponOpen] = useState(false);
 
   if (Component.getLayout) {
     return (
@@ -74,13 +80,21 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
           </Head>
           {/* //TODO: Make ChosenBetsContext component and clean this out */}
           <ChosenBetsContext.Provider
-            value={{ chosenBets, setChosenBets, chosenBetSum, setChosenBetSum }}
+            value={{
+              chosenBets,
+              setChosenBets,
+              chosenBetSum,
+              setChosenBetSum,
+              isCouponOpen,
+              setIsCouponOpen,
+            }}
           >
             <div className="bg-[#f4f0f0] text-black min-h-screen">
               <Navbar />
               <Sidebar />
               <RightBar />
               <Component {...pageProps} />
+              <MobileCouponCart />
             </div>
           </ChosenBetsContext.Provider>
         </RouteGuard>
