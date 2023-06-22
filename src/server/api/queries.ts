@@ -16,20 +16,24 @@ export const getAllBets = () => {
   return collection(db, "bets");
 };
 
+export const getAllRequestedBets = () => {
+  return collection(db, "bets_requests");
+};
+
 export const getAllAdmins = () => {
   return collection(db, "admins");
 };
 
 export const getAdminById = (userId: string) => {
-  return userId
-    ? query(collection(db, "admins"), where("uid", "==", userId))
-    : undefined;
+  return query(collection(db, "admins"), where("uid", "==", userId));
+};
+
+export const getRequestedBetById = (betId: string) => {
+  return query(collection(db, "bets_requests"), where("id", "==", betId));
 };
 
 export const getBetsPlacedByUserId = (userId: string) => {
-  return userId
-    ? query(collection(db, "bets_placed"), where("userId", "==", userId))
-    : undefined;
+  return query(collection(db, "bets_placed"), where("userId", "==", userId));
 };
 
 export const getAllPlacedBets = () => {

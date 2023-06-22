@@ -72,6 +72,11 @@ const Home = () => {
               Postawione zakłady
             </button>
           </Link>
+          <Link href="/admin/requested-bets">
+            <button className="px-8 py-3 font-semibold bg-purple-600 text-white border rounded-md hover:bg-purple-700 bg- transition-colors">
+              Propozycje zakładów
+            </button>
+          </Link>
         </div>
       )}
       {userAdminRole === "moderator" && (
