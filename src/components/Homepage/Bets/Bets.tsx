@@ -46,7 +46,7 @@ const Bets = () => {
   });
 
   return (
-    <div className="pt-16 mt-0.5 pb-4 md:pr-[21.5rem] xl:pr-[23.5rem] xl:pl-[22rem] md:pl-8 pl-5 pr-5">
+    <div className="pt-16 mt-0.5 pb-4 md:pr-[21.5rem] xl:pr-[23.5rem] xl:pl-[22rem] md:pl-8 px-4">
       <MainSubheader />
       <div className="flex flex-col gap-3.5 mt-3.5 ">
         {sortedBets?.map((bet, index) => {

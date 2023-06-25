@@ -81,7 +81,7 @@ const Home = () => {
   };
 
   return (
-    <div className="pt-[4.5rem] px-2 md:px-[24rem] pb-5">
+    <div className="pt-[4.5rem] px-4 md:px-[24rem] pb-5">
       <h2 className="text-center text-2xl font-bold pb-2">Tworzenie zakładu</h2>
       <BetCardEditable
         bet1={bet1}

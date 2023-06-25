@@ -25,7 +25,7 @@ const Home = () => {
   const deleteBet = (betId: string) => deleteData("bets_placed", betId);
 
   return (
-    <div className="pt-16 mt-0.5 pb-4 md:pr-[21.5rem] xl:pr-[23.5rem] xl:pl-[22rem] md:pl-8 px-2">
+    <div className="pt-16 mt-0.5 pb-4 md:pr-[21.5rem] xl:pr-[23.5rem] xl:pl-[22rem] md:pl-8 px-4">
       <h1 className="text-2xl font-bold text-center">Postawione zakłady</h1>
       <div className="flex flex-col gap-7 items-center mt-4">
         {sortedBets?.map((bet) => {
