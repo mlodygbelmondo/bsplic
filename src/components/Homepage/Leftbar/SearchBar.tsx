@@ -1,37 +1,42 @@
-import { TOAST_MESSAGES } from "@/utils/toastMessages";
-import { createToast } from "@/utils/toasts";
-import React, { useState } from "react";
+import React from "react";
 import { BiSearch } from "react-icons/bi";
 import { IoCloseSharp } from "react-icons/io5";
-const SearchBar = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [inputContent, setInputContent] = useState("");
 
+interface OwnProps {
+  inputValue: string;
+  setInputValue: (inputValue: string) => void;
+  placeholder: string;
+  width?: string;
+}
+
+const SearchBar = ({
+  inputValue,
+  setInputValue,
+  placeholder,
+  width = "w-full",
+}: OwnProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setInputContent(e.target.value);
+    setInputValue(e.target.value);
+
+  const resetInput = () => setInputValue("");
 
   return (
-    <div className="p-3.5 bg-white justify-between flex shadow-md items-center rounded-lg">
+    <div
+      className={`p-3.5 ${width} bg-white justify-between flex shadow-md items-center rounded-lg`}
+    >
       <div className="flex items-center w-full pr-2 gap-2">
         <BiSearch />
         <input
           type="text"
-          placeholder="Szukaj"
+          placeholder={placeholder}
           onChange={handleChange}
-          value={inputContent}
+          value={inputValue}
           className="outline-none text-sm placeholder:font-bold w-full"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              createToast(TOAST_MESSAGES.xD);
-            }
-          }}
         />
       </div>
       <IoCloseSharp
-        className={`cursor-pointer ${inputContent.length ? "" : "hidden"}`}
-        onClick={(e) => {
-          setInputContent("");
-        }}
+        className={`cursor-pointer ${inputValue.length ? "" : "hidden"}`}
+        onClick={resetInput}
       />
     </div>
   );

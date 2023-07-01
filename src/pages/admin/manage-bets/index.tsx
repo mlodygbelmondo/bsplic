@@ -39,7 +39,6 @@ const Home = () => {
           return (
             <div key={index} className="flex flex-col gap-1.5">
               <div className="flex justify-end">
-                {" "}
                 <button
                   className={`p-2  transition-colors font-semibold text-sm text-white rounded-md bg-red-700 hover:bg-red-800`}
                   onClick={() => {

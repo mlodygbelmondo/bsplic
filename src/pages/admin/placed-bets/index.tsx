@@ -1,7 +1,11 @@
 import MyCoupon from "@/components/mycoupons/MyCoupon";
+import BetsStatusFilter from "@/components/shared/BetsStatusFilter";
+import PlacedBetsSearchbars from "@/components/shared/PlacedBetsSearchbars";
 import addData from "@/server/api/addData";
 import deleteData from "@/server/api/deleteData";
 import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
+import { BETS_FILTER } from "@/utils/consts";
+import { filterBets } from "@/utils/filterBets";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -10,8 +14,20 @@ const Home = () => {
   const [users] = useCollection(getAllUsers());
   const [userBets] = useCollection(getAllPlacedBets());
   const [isDeleteButtonEnabled, setIsDeleteButtonEnabled] = useState(false);
+  const [betsFilter, setBetsFilter] = useState<keyof typeof BETS_FILTER>(
+    BETS_FILTER.pending
+  );
+  const [titleInput, setTitleInput] = useState("");
+  const [betInput, setBetInput] = useState("");
 
-  const sortedBets = userBets?.docs.sort((a, b) => {
+  const filteredBets = filterBets(
+    userBets?.docs,
+    betsFilter,
+    titleInput,
+    betInput
+  );
+
+  const sortedBets = filteredBets.sort((a, b) => {
     return dayjs
       .unix(a.data().betDate.seconds)
       .isBefore(dayjs.unix(b.data().betDate.seconds))
@@ -25,8 +41,17 @@ const Home = () => {
   const deleteBet = (betId: string) => deleteData("bets_placed", betId);
 
   return (
-    <div className="pt-16 mt-0.5 pb-4 md:pr-[21.5rem] xl:pr-[23.5rem] xl:pl-[22rem] md:pl-8 px-4">
-      <h1 className="text-2xl font-bold text-center">Postawione zakłady</h1>
+    <div className="pt-16 mt-0.5 pb-4 md:pr-[21.5rem] flex flex-col items-center xl:pr-[23.5rem] xl:pl-[22rem] md:pl-8 px-4">
+      <h1 className="text-2xl font-bold text-center pb-4">
+        Postawione zakłady
+      </h1>
+      <BetsStatusFilter betsFilter={betsFilter} setBetsFilter={setBetsFilter} />
+      <PlacedBetsSearchbars
+        titleInput={titleInput}
+        setTitleInput={setTitleInput}
+        betInput={betInput}
+        setBetInput={setBetInput}
+      />
       <div className="flex flex-col gap-7 items-center mt-4">
         {sortedBets?.map((bet) => {
           return (
@@ -110,7 +135,7 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <MyCoupon coupon={bet.data() as any} />
+              <MyCoupon coupon={bet.data() as any} id={bet.id} />
             </div>
           );
         })}

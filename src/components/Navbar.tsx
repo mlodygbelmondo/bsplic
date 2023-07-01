@@ -8,7 +8,7 @@ import { useSignOut } from "react-firebase-hooks/auth";
 import { useAuthContext } from "@/context/AuthContext";
 import { useCollection } from "react-firebase-hooks/firestore";
 import type { User } from "firebase/auth";
-import { getAdminById, getUserById } from "@/server/api/queries";
+import { getUserById } from "@/server/api/queries";
 import { FaPlus } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { FaUser } from "react-icons/fa";
@@ -23,13 +23,8 @@ import { useModal } from "./shared/useModal";
 import dayjs from "dayjs";
 import addData from "@/server/api/addData";
 import MobileNavbar from "./MobileNavbar";
-type CurrentPage = "home" | "live" | "promo";
 
-interface NavProps {
-  currentPage?: CurrentPage;
-}
-
-const Navbar = ({ currentPage }: NavProps) => {
+const Navbar = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
   const { user }: { user: User } = useAuthContext();
@@ -67,13 +62,12 @@ const Navbar = ({ currentPage }: NavProps) => {
 
   useEffect(() => {
     const getAdmins = async () => {
-      if (user) {
-        const admin = await getData("admins", user.uid).then((data) => {
+      if (user)
+        await getData("admins", user.uid).then((data) => {
           if (data.result?.exists()) {
             return setIsUserAdmin(true);
           } else return setIsUserAdmin(false);
         });
-      }
     };
     getAdmins();
   }, [user]);

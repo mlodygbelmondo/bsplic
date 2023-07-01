@@ -1,6 +1,10 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import getData from "../../server/api/getData";
+import { useAuthContext } from "@/context/AuthContext";
+import { User } from "firebase/auth";
+
 interface CouponBasic {
   bet: any | undefined;
   bets: any[] | undefined;
@@ -22,10 +26,27 @@ interface CouponBasic {
 
 interface CouponProps<Coupon> {
   coupon: Coupon;
+  id: string;
 }
 const MyCoupon = <Coupon extends CouponBasic>({
   coupon,
+  id,
 }: CouponProps<Coupon>) => {
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const { user }: { user: User } = useAuthContext();
+
+  useEffect(() => {
+    const getAdmins = async () => {
+      if (user)
+        await getData("admins", user.uid).then((data) => {
+          if (data.result?.exists()) {
+            return setIsUserAdmin(true);
+          } else return setIsUserAdmin(false);
+        });
+    };
+    getAdmins();
+  }, [user]);
+
   const {
     bet,
     bets,
@@ -118,8 +139,12 @@ const MyCoupon = <Coupon extends CouponBasic>({
           </p>
         </div>
       </div>
-      <div className="px-3 py-2 text-[10px] text-gray-400">
-        Data złożenia: {dayjs.unix(betDate.seconds).format("DD.MM.YYYY HH:mm")}
+      <div className="px-3 py-2 flex justify-between items-center text-[10px] text-gray-400">
+        <p>
+          Data złożenia:{" "}
+          {dayjs.unix(betDate.seconds).format("DD.MM.YYYY HH:mm")}
+        </p>
+        {isUserAdmin && <p>{id}</p>}
       </div>
     </div>
   );
