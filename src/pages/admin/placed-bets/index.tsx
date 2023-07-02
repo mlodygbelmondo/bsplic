@@ -9,6 +9,9 @@ import { filterBets } from "@/utils/filterBets";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
+import getData from "@/server/api/getData";
+import { createToast } from "@/utils/toasts";
+import { TOAST_MESSAGES } from "@/utils/toastMessages";
 
 const Home = () => {
   const [users] = useCollection(getAllUsers());
@@ -38,7 +41,17 @@ const Home = () => {
   const toggleDeleteButton = () =>
     setIsDeleteButtonEnabled(!isDeleteButtonEnabled);
 
-  const deleteBet = (betId: string) => deleteData("bets_placed", betId);
+  const cancelBet = (betId: string, betAmount: number, userId: string) => {
+    getData("users", userId).then((user) => {
+      if (user.result?.exists && user.result.data()?.balance) {
+        addData("users", userId, {
+          balance: betAmount + user.result.data()?.balance,
+        });
+        deleteData("bets_placed", betId);
+        createToast(TOAST_MESSAGES.cancelBetSuccess);
+      } else createToast(TOAST_MESSAGES.cancelBetFailed);
+    });
+  };
 
   return (
     <div className="pt-16 mt-0.5 pb-4 md:pr-[21.5rem] flex flex-col items-center xl:pr-[23.5rem] xl:pl-[22rem] md:pl-8 px-4">
@@ -128,10 +141,16 @@ const Home = () => {
                         ? "bg-gray-300 text-gray-400"
                         : "bg-red-700 hover:bg-red-800 text-white"
                     }`}
-                    onClick={() => deleteBet(bet.id)}
+                    onClick={() =>
+                      cancelBet(
+                        bet.id,
+                        +bet.data().betAmount,
+                        bet.data().userId
+                      )
+                    }
                     disabled={!isDeleteButtonEnabled}
                   >
-                    Usuń
+                    Zwrot
                   </button>
                 </div>
               </div>

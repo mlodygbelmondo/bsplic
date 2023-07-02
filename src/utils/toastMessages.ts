@@ -65,6 +65,14 @@ export const TOAST_MESSAGES = {
     message: "xD zdrowy",
     type: toastType.failed,
   },
+  cancelBetSuccess: {
+    message: "Zakład został pomyślnie anulowany!",
+    type: toastType.success,
+  },
+  cancelBetFailed: {
+    message: "Nie udało się anulować zakładu.",
+    type: toastType.failed,
+  },
   betCreatedSuccessfully: {
     message: "Zakład został pomyślnie utworzony!",
     type: toastType.success,

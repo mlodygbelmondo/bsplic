@@ -115,6 +115,16 @@ const Navbar = () => {
               </button>
               <button
                 onClick={() =>
+                  router.asPath !== "/rankings" && router.push("/rankings")
+                }
+                className={`p-3.5 hover:bg-red-600 transition-colors ease-in duration-50 ${
+                  router.asPath === "/rankings" ? "" : "text-[#ffffffaf]"
+                }`}
+              >
+                Rankingi
+              </button>
+              <button
+                onClick={() =>
                   router.asPath !== "/live" && router.push("/live")
                 }
                 className={`p-3.5 relative hover:bg-red-600 transition-colors ease-in duration-50 live-category ${

@@ -1,5 +1,6 @@
 import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
 import addData from "@/server/api/addData";
+import deleteData from "@/server/api/deleteData";
 import { getAllRequestedBets, getRequestedBetById } from "@/server/api/queries";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
 import { createToast } from "@/utils/toasts";
@@ -69,7 +70,8 @@ const Home = () => {
       date !== "" &&
       hour !== "" &&
       title !== "" &&
-      betLabel !== ""
+      betLabel !== "" &&
+      typeof requestId === "string"
     ) {
       addData("bets", betId, {
         bet1: bet1,
@@ -90,6 +92,12 @@ const Home = () => {
         title: title,
         creationDate: new Date(),
         betsPlaced: 0,
+      }).then(() => {
+        deleteData("bets_requests", requestId)
+          .then(() => {
+            router.push("/admin/requested-bets");
+          })
+          .catch((err) => console.log(err));
       });
       createToast(TOAST_MESSAGES.betCreatedSuccessfully);
     } else createToast(TOAST_MESSAGES.fillAllFields);

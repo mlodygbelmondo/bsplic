@@ -15,7 +15,7 @@ const PlacedBetsSearchbars = ({
   setBetInput,
 }: OwnProps) => {
   return (
-    <div className="flex flex-col mt-5 md:w-[600px] justify-center md:flex-row gap-2">
+    <div className="flex flex-col mt-5 w-full md:w-[600px] justify-center md:flex-row gap-2">
       <SearchBar
         inputValue={titleInput}
         setInputValue={setTitleInput}

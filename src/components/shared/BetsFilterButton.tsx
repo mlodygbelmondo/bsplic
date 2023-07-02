@@ -11,7 +11,7 @@ const BetsFilterButton = ({ isActive, onClick, label, icon }: OwnProps) => {
   return (
     <button
       onClick={onClick}
-      className={`p-2 md:p-2.5 shadow font-medium rounded-full flex items-center gap-1 text-xs md:text-sm transition-colors ${
+      className={`p-2 md:p-2.5 shadow font-medium rounded-full flex items-center gap-1 text-[11px] md:text-sm transition-colors ${
         isActive
           ? "bg-black text-white"
           : "bg-white text-black hover:bg-gray-50"

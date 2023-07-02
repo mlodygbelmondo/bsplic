@@ -139,10 +139,10 @@ const MyCoupon = <Coupon extends CouponBasic>({
           </p>
         </div>
       </div>
-      <div className="px-3 py-2 flex justify-between items-center text-[10px] text-gray-400">
+      <div className="px-3 py-2 flex flex-col md:flex-row justify-between md:items-center text-[10px] text-gray-400">
         <p>
-          Data złożenia:{" "}
-          {dayjs.unix(betDate.seconds).format("DD.MM.YYYY HH:mm")}
+          Data złożenia:
+          <span> {dayjs.unix(betDate.seconds).format("DD.MM.YYYY HH:mm")}</span>
         </p>
         {isUserAdmin && <p>{id}</p>}
       </div>

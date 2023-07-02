@@ -11,3 +11,9 @@ export const BETS_FILTER = {
   lost: "lost",
   won: "won",
 } as const;
+
+export const RANKINGS_TAB = {
+  BIGGEST_WON_ODDS: "BIGGEST_WON_ODDS",
+  BIGGEST_WON_AMOUNT: "BIGGEST_WON_AMOUNT",
+  BIGGEST_LOST_AMOUNT: "BIGGEST_LOST_AMOUNT",
+} as const;

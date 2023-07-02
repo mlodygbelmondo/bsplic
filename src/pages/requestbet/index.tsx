@@ -46,7 +46,7 @@ const Home = () => {
         title !== "" &&
         betLabel !== ""
       ) {
-        const data = addData("bets_requests", betId, {
+        addData("bets_requests", betId, {
           bet1: bet1,
           bet1Odds: parseFloat(bet1Odds),
           bet1Percents: parseInt(bet1Percents),
@@ -57,13 +57,11 @@ const Home = () => {
           categories: [category],
           date: date,
           hour: hour,
-          icon: "/school.png",
+          icon: "/popularbets/dice.png",
           subtitle: subtitle,
           title: title,
           authorId: user.uid,
-        });
-
-        data
+        })
           .then(() => {
             createToast(TOAST_MESSAGES.betRequestSent());
           })
@@ -71,12 +69,8 @@ const Home = () => {
             createToast(TOAST_MESSAGES.betRequestFailed());
             console.log(err);
           });
-      } else {
-        createToast(TOAST_MESSAGES.fillAllFields);
-      }
-    } else {
-      createToast(TOAST_MESSAGES.tooManyRequests());
-    }
+      } else createToast(TOAST_MESSAGES.fillAllFields);
+    } else createToast(TOAST_MESSAGES.tooManyRequests());
   };
 
   return (
