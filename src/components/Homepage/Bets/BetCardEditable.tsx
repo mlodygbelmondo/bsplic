@@ -26,6 +26,7 @@ interface OwnProps {
   setHour: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setBetLabel: React.Dispatch<React.SetStateAction<string>>;
+  iconPath: string;
 }
 
 const BetCardEditable = ({
@@ -52,13 +53,14 @@ const BetCardEditable = ({
   setHour,
   setTitle,
   setBetLabel,
+  iconPath,
 }: OwnProps) => {
   return (
     <div className="bet-card-container select-none bg-white flex flex-col md:grid md:grid-cols-[1.2fr_1.6fr] py-3.5 px-3.5 shadow-betcard rounded-lg transition-colors">
       <div className="left-bet-card-container">
         <div className="mb-1 flex justify-between">
           <div className="flex items-center gap-1">
-            <Image src="/bspl.png" alt="Icon Image" width={16} height={16} />
+            <Image src={iconPath} alt="Icon Image" width={16} height={16} />
             <input
               type="text"
               className="text-[0.6rem] text-gray-500 focus:outline-none w-[6.75rem]"

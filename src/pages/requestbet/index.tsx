@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { User } from "firebase/auth";
 import { useAuthContext } from "@/context/AuthContext";
-
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
 import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
 import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
 import Head from "next/head";
+import Image from "next/image";
+import { ICONS_OPTIONS } from "@/utils/consts";
 const Home = () => {
   const [numberOfRequestsSent, setNumberOfRequestsSent] = useState(0);
   const [title, setTitle] = useState("");
@@ -22,6 +25,7 @@ const Home = () => {
   const [bet2Percents, setBet2Percents] = useState("");
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
+  const [iconPath, setIconPath] = useState("/popularbets/dice.png");
 
   const { user }: { user: User } = useAuthContext();
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +48,8 @@ const Home = () => {
         date !== "" &&
         hour !== "" &&
         title !== "" &&
-        betLabel !== ""
+        betLabel !== "" &&
+        iconPath !== ""
       ) {
         addData("bets_requests", betId, {
           bet1: bet1,
@@ -57,7 +62,7 @@ const Home = () => {
           categories: [category],
           date: date,
           hour: hour,
-          icon: "/popularbets/dice.png",
+          icon: iconPath,
           subtitle: subtitle,
           title: title,
           authorId: user.uid,
@@ -72,6 +77,9 @@ const Home = () => {
       } else createToast(TOAST_MESSAGES.fillAllFields);
     } else createToast(TOAST_MESSAGES.tooManyRequests());
   };
+
+  const handleIconPathChange = (event: any, value: string | null) =>
+    value && setIconPath(value);
 
   return (
     <>
@@ -109,6 +117,7 @@ const Home = () => {
           setHour={setHour}
           setSubtitle={setSubtitle}
           setTitle={setTitle}
+          iconPath={iconPath}
         />
         <form
           action=""
@@ -248,6 +257,21 @@ const Home = () => {
               }}
               placeholder="Godzina zakładu"
             />
+            <Select
+              value={iconPath}
+              onChange={handleIconPathChange}
+              startDecorator={
+                <Image src={iconPath} alt={iconPath} width={16} height={16} />
+              }
+            >
+              {ICONS_OPTIONS.map((icon) => (
+                <Option value={icon} key={icon}>
+                  <div className="flex w-full justify-center">
+                    <Image src={icon} alt={icon} width={16} height={16} />
+                  </div>
+                </Option>
+              ))}
+            </Select>
           </div>
 
           <button

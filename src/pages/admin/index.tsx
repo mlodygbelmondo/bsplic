@@ -1,20 +1,13 @@
-import addData from "@/server/api/addData";
 import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import type { User } from "firebase/auth";
 import { useAuthContext } from "@/context/AuthContext";
 
 import { useRouter } from "next/router";
 import getData from "../../server/api/getData";
-import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
 
 import dayjs from "dayjs";
-import MyCoupon from "@/components/mycoupons/MyCoupon";
-import { createToast } from "@/utils/toasts";
-import { TOAST_MESSAGES } from "@/utils/toastMessages";
-import deleteData from "@/server/api/deleteData";
 import Link from "next/link";
 const Home = () => {
   const [userAdminRole, setUserAdminRole] = useState<

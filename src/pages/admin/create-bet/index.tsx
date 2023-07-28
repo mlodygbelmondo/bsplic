@@ -2,10 +2,13 @@ import BetCardEditable from "@/components/Homepage/Bets/BetCardEditable";
 import addData from "@/server/api/addData";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
 import { createToast } from "@/utils/toasts";
-import Link from "next/link";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
 import React, { useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
+import Image from "next/image";
+import { ICONS_OPTIONS } from "@/utils/consts";
 
 const Home = () => {
   const [title, setTitle] = useState("");
@@ -20,7 +23,7 @@ const Home = () => {
   const [bet2Percents, setBet2Percents] = useState("");
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
-  const [iconPath, setIconPath] = useState("");
+  const [iconPath, setIconPath] = useState("/popularbets/dice.png");
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,9 +54,6 @@ const Home = () => {
         date: date,
         hour: hour,
         icon: iconPath,
-        //icon: "/categories/youtube.png",
-        //icon: "/popularbets/dice.png",
-        //icon: "/popularbets/shooting.png",
         subtitle: subtitle,
         title: title,
         creationDate: new Date(),
@@ -62,23 +62,11 @@ const Home = () => {
       createToast(TOAST_MESSAGES.betCreatedSuccessfully);
     } else {
       createToast(TOAST_MESSAGES.fillAllFields);
-      // addData("bets", betId, {
-      //   bet1: "Poniżej 59.5%",
-      //   bet1Odds: 1.75,
-      //   bet1Percents: 54,
-      //   bet2: "Powyżej 57.5%",
-      //   bet2Odds: 1.85,
-      //   bet2Percents: 46,
-      //   betLabel: "Wynik matury",
-      //   categories: ["final exam", "school"],
-      //   date: "04.05.2023",
-      //   hour: "9:00",
-      //   icon: "/categories/school.png",
-      //   subtitle: "Matura - j.polski, podstawa",
-      //   title: title,
-      // });
     }
   };
+
+  const handleIconPathChange = (event: any, value: string | null) =>
+    value && setIconPath(value);
 
   return (
     <div className="pt-[4.5rem] px-4 md:px-[24rem] pb-5">
@@ -108,6 +96,7 @@ const Home = () => {
         setHour={setHour}
         setSubtitle={setSubtitle}
         setTitle={setTitle}
+        iconPath={iconPath}
       />
       <form
         action=""
@@ -247,15 +236,21 @@ const Home = () => {
             }}
             placeholder="Godzina zakładu"
           />
-          <input
-            type="text"
+          <Select
             value={iconPath}
-            className="p-3 rounded-md border w-64"
-            onChange={(e) => {
-              setIconPath(e.target.value);
-            }}
-            placeholder="Ścieżka ikonki zakładu"
-          />
+            onChange={handleIconPathChange}
+            startDecorator={
+              <Image src={iconPath} alt={iconPath} width={16} height={16} />
+            }
+          >
+            {ICONS_OPTIONS.map((icon) => (
+              <Option value={icon} key={icon}>
+                <div className="flex w-full justify-center">
+                  <Image src={icon} alt={icon} width={16} height={16} />
+                </div>
+              </Option>
+            ))}
+          </Select>
         </div>
 
         <button
