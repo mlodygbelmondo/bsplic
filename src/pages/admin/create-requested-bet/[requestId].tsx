@@ -281,6 +281,7 @@ const Home = () => {
             startDecorator={
               <Image src={iconPath} alt={iconPath} width={16} height={16} />
             }
+            className="mx-20"
           >
             {ICONS_OPTIONS.map((icon) => (
               <Option value={icon} key={icon}>
