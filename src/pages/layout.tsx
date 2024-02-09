@@ -1,15 +1,19 @@
+import Sidebar from "@/components/Homepage/Leftbar/Sidebar";
+import RightBar from "@/components/Homepage/Rightbar/RightBar";
+import Navbar from "@/components/Navbar";
+import RouteGuard from "@/components/auth/RouteGuard";
+import MobileCouponCart from "@/components/shared/MobileCouponCart";
 import { NextPage } from "next";
+import { FunctionComponent, PropsWithChildren } from "react";
 
-function Layout() {
-  return <h1>Test</h1>;
-}
-export default Layout;
-
-Layout.getLayout = function PageLayout(page: NextPage) {
+const BetsLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   return (
     <>
-      <h1>Layout component</h1>
-      {page}
+      <Sidebar />
+      <RightBar />
+      {children}
+      <MobileCouponCart />
     </>
   );
 };
+export default BetsLayout;

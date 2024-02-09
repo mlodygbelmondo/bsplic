@@ -132,7 +132,3 @@ export default function Home() {
     </>
   );
 }
-
-Home.getLayout = function PageLayout(page: ReactNode) {
-  return <div className="bg-[#f4f0f0] text-black">{page}</div>;
-};

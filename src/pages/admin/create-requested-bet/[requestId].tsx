@@ -10,7 +10,8 @@ import Option from "@mui/joy/Option";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
-
+import { ReactNode } from "react";
+import BetsLayout from "../../layout";
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 import { ICONS_OPTIONS } from "@/utils/consts";
@@ -307,6 +308,10 @@ const Home = () => {
       </form>
     </div>
   );
+};
+
+Home.getLayout = (page: ReactNode) => {
+  return <BetsLayout>{page}</BetsLayout>;
 };
 
 export default Home;

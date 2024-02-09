@@ -4,12 +4,13 @@ import { useAuthContext } from "@/context/AuthContext";
 import { getBetsPlacedByUserId } from "@/server/api/queries";
 import { User } from "firebase/auth";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import dayjs from "dayjs";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { BETS_FILTER } from "@/utils/consts";
 import { filterBets } from "@/utils/filterBets";
 import BetsStatusFilter from "@/components/shared/BetsStatusFilter";
+import BetsLayout from "../layout";
 
 const Home = () => {
   const { user }: { user: User } = useAuthContext();
@@ -56,6 +57,10 @@ const Home = () => {
       </div>
     </>
   );
+};
+
+Home.getLayout = (page: ReactNode) => {
+  return <BetsLayout>{page}</BetsLayout>;
 };
 
 export default Home;

@@ -9,7 +9,8 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 import { ICONS_OPTIONS } from "@/utils/consts";
-
+import { ReactNode } from "react";
+import BetsLayout from "../../layout";
 const Home = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -263,6 +264,10 @@ const Home = () => {
       </form>
     </div>
   );
+};
+
+Home.getLayout = (page: ReactNode) => {
+  return <BetsLayout>{page}</BetsLayout>;
 };
 
 export default Home;

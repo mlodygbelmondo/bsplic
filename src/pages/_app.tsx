@@ -62,7 +62,27 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
       <main className={inter.className}>
         <AuthContextProvider>
           <Toaster />
-          {Component.getLayout(<Component {...pageProps} />)}
+          <Head>
+            <title>BSPLIC</title>
+            <link rel="bsplic icon" href="/bsplic-icon.ico" />
+          </Head>
+          <RouteGuard>
+            <ChosenBetsContext.Provider
+              value={{
+                chosenBets,
+                setChosenBets,
+                chosenBetSum,
+                setChosenBetSum,
+                isCouponOpen,
+                setIsCouponOpen,
+              }}
+            >
+              <div className="bg-[#f4f0f0] text-black min-h-screen">
+                <Navbar />
+                {Component.getLayout(<Component {...pageProps} />)}
+              </div>
+            </ChosenBetsContext.Provider>
+          </RouteGuard>
         </AuthContextProvider>
       </main>
     );
@@ -72,31 +92,25 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
     <main className={inter.className}>
       <AuthContextProvider>
         <Toaster />
-        <RouteGuard>
-          <Head>
-            <title>BSPLIC</title>
-            <link rel="bsplic icon" href="/bsplic-icon.ico" />
-          </Head>
-          {/* //TODO: Make ChosenBetsContext component and clean this out */}
-          <ChosenBetsContext.Provider
-            value={{
-              chosenBets,
-              setChosenBets,
-              chosenBetSum,
-              setChosenBetSum,
-              isCouponOpen,
-              setIsCouponOpen,
-            }}
-          >
-            <div className="bg-[#f4f0f0] text-black min-h-screen">
-              <Navbar />
-              <Sidebar />
-              <RightBar />
-              <Component {...pageProps} />
-              <MobileCouponCart />
-            </div>
-          </ChosenBetsContext.Provider>
-        </RouteGuard>
+        <Head>
+          <title>BSPLIC</title>
+          <link rel="bsplic icon" href="/bsplic-icon.ico" />
+        </Head>
+        {/* //TODO: Make ChosenBetsContext component and clean this out */}
+        <ChosenBetsContext.Provider
+          value={{
+            chosenBets,
+            setChosenBets,
+            chosenBetSum,
+            setChosenBetSum,
+            isCouponOpen,
+            setIsCouponOpen,
+          }}
+        >
+          <div className="bg-[#f4f0f0] text-black min-h-screen">
+            <Component {...pageProps} />
+          </div>
+        </ChosenBetsContext.Provider>
       </AuthContextProvider>
     </main>
   );

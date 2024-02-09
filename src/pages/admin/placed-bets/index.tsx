@@ -12,7 +12,8 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import getData from "@/server/api/getData";
 import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
-
+import { ReactNode } from "react";
+import BetsLayout from "../../layout";
 const Home = () => {
   const [users] = useCollection(getAllUsers());
   const [userBets] = useCollection(getAllPlacedBets());
@@ -161,6 +162,10 @@ const Home = () => {
       </div>
     </div>
   );
+};
+
+Home.getLayout = (page: ReactNode) => {
+  return <BetsLayout>{page}</BetsLayout>;
 };
 
 export default Home;

@@ -36,6 +36,10 @@ export const getBetsPlacedByUserId = (userId: string) => {
   return query(collection(db, "bets_placed"), where("userId", "==", userId));
 };
 
+export const getRouletteBetById = (betId: string) => {
+  return query(collection(db, "roulette_bets"), where("id", "==", betId));
+};
+
 export const getAllPlacedBets = () => {
   return collection(db, "bets_placed");
 };

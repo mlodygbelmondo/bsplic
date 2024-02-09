@@ -77,4 +77,16 @@ export const TOAST_MESSAGES = {
     message: "Zakład został pomyślnie utworzony!",
     type: toastType.success,
   },
+  notFoundError: {
+    message: "Wystąpił bład, skontaktuj się z administratorem",
+    type: toastType.failed,
+  },
+  rouletteBetWon: (value: number) => ({
+    message: `Gratulacje, wygrałeś ${value}zł!`,
+    type: toastType.success,
+  }),
+  rouletteBetLost: (value: number) => ({
+    message: `Niestety, przegrałeś ${value}zł.`,
+    type: toastType.failed,
+  }),
 };

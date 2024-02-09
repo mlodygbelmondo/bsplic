@@ -4,7 +4,8 @@ import { getAllBets } from "@/server/api/queries";
 import dayjs from "dayjs";
 import React from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
-
+import { ReactNode } from "react";
+import BetsLayout from "../../layout";
 const Home = () => {
   const [bets, loading, err] = useCollection(getAllBets());
 
@@ -58,6 +59,10 @@ const Home = () => {
       </div>
     </div>
   );
+};
+
+Home.getLayout = (page: ReactNode) => {
+  return <BetsLayout>{page}</BetsLayout>;
 };
 
 export default Home;

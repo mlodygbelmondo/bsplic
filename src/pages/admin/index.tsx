@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import type { User } from "firebase/auth";
 import { useAuthContext } from "@/context/AuthContext";
 
@@ -9,6 +9,7 @@ import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
 
 import dayjs from "dayjs";
 import Link from "next/link";
+import BetsLayout from "../layout";
 const Home = () => {
   const [userAdminRole, setUserAdminRole] = useState<
     "" | "admin" | "moderator"
@@ -77,6 +78,10 @@ const Home = () => {
       )}
     </>
   );
+};
+
+Home.getLayout = (page: ReactNode) => {
+  return <BetsLayout>{page}</BetsLayout>;
 };
 
 export default Home;

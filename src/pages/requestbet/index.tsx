@@ -1,5 +1,5 @@
 import addData from "@/server/api/addData";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { User } from "firebase/auth";
 import { useAuthContext } from "@/context/AuthContext";
@@ -11,6 +11,7 @@ import { TOAST_MESSAGES } from "@/utils/toastMessages";
 import Head from "next/head";
 import Image from "next/image";
 import { ICONS_OPTIONS } from "@/utils/consts";
+import BetsLayout from "../layout";
 const Home = () => {
   const [numberOfRequestsSent, setNumberOfRequestsSent] = useState(0);
   const [title, setTitle] = useState("");
@@ -285,6 +286,10 @@ const Home = () => {
       </div>
     </>
   );
+};
+
+Home.getLayout = (page: ReactNode) => {
+  return <BetsLayout>{page}</BetsLayout>;
 };
 
 export default Home;
