@@ -10,42 +10,11 @@ import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
 import dayjs from "dayjs";
 import Link from "next/link";
 import BetsLayout from "../layout";
+import { AdminContextProvider, useAdminContext } from "@/context/AdminContext";
+import AdminLayout from "./layout";
 const Home = () => {
-  const [userAdminRole, setUserAdminRole] = useState<
-    "" | "admin" | "moderator"
-  >("");
-
-  const { user }: { user: User } = useAuthContext();
-
-  const router = useRouter();
-
-  useEffect(() => {
-    const getAdmins = async () => {
-      if (user) {
-        const admin = await getData("admins", user.uid).then((data) => {
-          if (!data.result?.exists()) {
-            return router.push("/");
-          } else {
-            if (data.result.data()?.role === "admin") setUserAdminRole("admin");
-            else setUserAdminRole("moderator");
-          }
-        });
-      } else return router.push("/");
-    };
-    getAdmins();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-  const [users] = useCollection(getAllUsers());
   const [userBets] = useCollection(getAllPlacedBets());
-  const [isDeleteButtonEnabled, setIsDeleteButtonEnabled] = useState(false);
-
-  const sortedBets = userBets?.docs.sort((a, b) => {
-    return dayjs
-      .unix(a.data().betDate.seconds)
-      .isBefore(dayjs.unix(b.data().betDate.seconds))
-      ? 1
-      : -1;
-  });
+  const { userAdminRole } = useAdminContext();
 
   return (
     <>
@@ -81,7 +50,7 @@ const Home = () => {
 };
 
 Home.getLayout = (page: ReactNode) => {
-  return <BetsLayout>{page}</BetsLayout>;
+  return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default Home;

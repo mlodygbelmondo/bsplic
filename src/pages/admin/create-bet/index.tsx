@@ -11,6 +11,7 @@ import Image from "next/image";
 import { ICONS_OPTIONS } from "@/utils/consts";
 import { ReactNode } from "react";
 import BetsLayout from "../../layout";
+import AdminLayout from "../layout";
 const Home = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -267,7 +268,7 @@ const Home = () => {
 };
 
 Home.getLayout = (page: ReactNode) => {
-  return <BetsLayout>{page}</BetsLayout>;
+  return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default Home;

@@ -137,7 +137,7 @@ const Home = ({}) => {
         bet = bet as SimpleRouletteBetData;
       }
 
-      const winnings = bet.bet === "green" ? bet.value * 14 : bet.value * 2;
+      const winnings = bet.bet === "green" ? bet.value * 18 : bet.value * 2;
 
       if (bet.result === "win") {
         await addData("users", user.uid, {

@@ -37,19 +37,6 @@ const Navbar = () => {
   const [userData] = useCollection(getUserById(user?.uid));
   const [isUserAdmin, setIsUserAdmin] = useState(false);
 
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     return (await getData("users", user)).result?.data();
-  //   };
-  //   getUserData();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  // const [admins, loadingAdmins, errorAdmins] = useCollection(
-  //   getAdminById(user?.uid)
-  // );
-  // console.log(userData?.docs[0]?.data());
-  // console.log(admins?.docs[0]?.data());
-
   const [signOut] = useSignOut(auth);
 
   const closeUserMenu = () => setIsUserMenuOpen(false);

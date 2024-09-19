@@ -13,7 +13,7 @@ import getData from "@/server/api/getData";
 import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
 import { ReactNode } from "react";
-import BetsLayout from "../../layout";
+import AdminLayout from "../layout";
 const Home = () => {
   const [users] = useCollection(getAllUsers());
   const [userBets] = useCollection(getAllPlacedBets());
@@ -165,7 +165,7 @@ const Home = () => {
 };
 
 Home.getLayout = (page: ReactNode) => {
-  return <BetsLayout>{page}</BetsLayout>;
+  return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default Home;
