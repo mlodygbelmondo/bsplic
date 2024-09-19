@@ -88,20 +88,20 @@ export default function Home() {
         "bg-orange-600 text-white hover:bg-orange-700 transition-colors ease-linear",
       textStyling: "text-white",
     },
-    {
-      icon: <ImFacebook className="w-5 h-5 text-white" />,
-      label: "Zaloguj się przez Facebook'a",
-      onClick: async () => {
-        const success = await signInWithFacebook();
-        if (success) {
-          handleCreatingAccount(success);
-          router.push("/");
-        }
-      },
-      styling:
-        "bg-blue-600 text-white hover:bg-blue-700 transition-colors ease-linear",
-      textStyling: "text-white",
-    },
+    // {
+    //   icon: <ImFacebook className="w-5 h-5 text-white" />,
+    //   label: "Zaloguj się przez Facebook'a",
+    //   onClick: async () => {
+    //     const success = await signInWithFacebook();
+    //     if (success) {
+    //       handleCreatingAccount(success);
+    //       router.push("/");
+    //     }
+    //   },
+    //   styling:
+    //     "bg-blue-600 text-white hover:bg-blue-700 transition-colors ease-linear",
+    //   textStyling: "text-white",
+    // },
   ];
   return (
     <>
