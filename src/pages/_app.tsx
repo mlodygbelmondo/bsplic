@@ -1,19 +1,16 @@
 import "@/styles/globals.css";
 import { AppContext, AppInitialProps, AppLayoutProps } from "next/app";
 import type { NextComponentType } from "next";
-import Navbar from "@/components/Navbar";
+import Navbar from "../components/navbar/navbar.component";
 import React from "react";
-import Sidebar from "@/components/Homepage/Leftbar/Sidebar";
-import RightBar from "@/components/Homepage/Rightbar/RightBar";
 import Head from "next/head";
 import RouteGuard from "@/components/auth/RouteGuard";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { Montserrat } from "next/font/google";
-import MobileCouponCart from "@/components/shared/MobileCouponCart";
 
-const inter = Montserrat({ subsets: ["latin"] });
+export const inter = Montserrat({ subsets: ["latin"] });
 
 export interface ChosenBet {
   icon: string;
@@ -61,7 +58,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
     return (
       <main className={inter.className}>
         <AuthContextProvider>
-          <Toaster />
+          <Toaster position="top-right" containerClassName="translate-y-10" />
           <Head>
             <title>BSPLIC</title>
             <link rel="bsplic icon" href="/bsplic-icon.ico" />

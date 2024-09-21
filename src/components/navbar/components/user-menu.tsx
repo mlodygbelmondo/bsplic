@@ -10,7 +10,7 @@ interface OwnProps {
   user: User;
 }
 
-const UserMenu = ({ loggingOut, user }: OwnProps) => {
+export const UserMenu = ({ loggingOut, user }: OwnProps) => {
   return (
     <div
       className=" absolute w-44 text-base text-left flex top-14 cursor-pointer rounded-md text-gray-900  bg-gray-50 right-3 flex-col shadow shadow-gray-400"
@@ -57,5 +57,3 @@ const UserMenu = ({ loggingOut, user }: OwnProps) => {
     </div>
   );
 };
-
-export default UserMenu;

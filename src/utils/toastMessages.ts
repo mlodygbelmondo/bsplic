@@ -17,6 +17,10 @@ export const TOAST_MESSAGES = {
     } standbys on ${date}`,
     type: switchValue ? toastType.info : toastType.success,
   }),
+  monthlyBonusClaimed: (): Toast => ({
+    message: "Miesięczny bonus odebrany!",
+    type: toastType.success,
+  }),
   resetPasswordLinkSent: (): Toast => ({
     message: "Check your email for link to change password.",
     type: toastType.info,
