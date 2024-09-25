@@ -70,24 +70,23 @@ const Navbar = () => {
 
   const userAccount = userData?.docs[0]?.data();
 
-  const { userBalance, userDisplayName, userPhotoURL, userProviderId } =
-    useMemo(() => {
-      const userBalance = userData?.docs[0]?.data()?.balance
-        ? (userData?.docs[0]?.data().balance as number)
-        : 0;
-      const userPhotoURL = user.photoURL ?? "";
-      const userProviderId = user.providerData[0].providerId;
-      const userDisplayName = user.displayName
-        ? user.displayName.split(" ")[0]
-        : "Profil";
+  const { userBalance, userDisplayName, userProviderId } = useMemo(() => {
+    console.log(user);
 
-      return {
-        userBalance,
-        userPhotoURL,
-        userProviderId,
-        userDisplayName,
-      };
-    }, [userData, user]);
+    const userBalance = userData?.docs[0]?.data()?.balance
+      ? (userData?.docs[0]?.data().balance as number)
+      : 0;
+    const userProviderId = user?.providerData[0].providerId;
+    const userDisplayName = user?.displayName
+      ? user.displayName.split(" ")[0]
+      : "Profil";
+
+    return {
+      userBalance,
+      userProviderId,
+      userDisplayName,
+    };
+  }, [userData, user]);
 
   const isMonthlyBonusClaimed = !dayjs()
     .startOf("month")
@@ -152,11 +151,19 @@ const Navbar = () => {
             completeAnimation={completeAnimation}
           />
           <UserLinks isUserAdmin={isUserAdmin} linkClick={linkClick} />
+
+          <img
+            width={24}
+            height={24}
+            src="https://lh3.googleusercontent.com/a/AGNmyxYRPTGEVweejTxpX9Zuy6ORyFVsCLNQ4aTm5VuDrw=s96-c"
+            alt="user img"
+            className="rounded-full"
+          />
           <UserMenuContainer
             loggingOut={loggingOut}
             user={user}
             userDisplayName={userDisplayName}
-            userPhotoURL={userPhotoURL}
+            userPhotoURL={""}
             userProviderId={userProviderId}
             toggleUserMenu={toggleUserMenu}
             isUserMenuOpen={isUserMenuOpen}

@@ -16,6 +16,8 @@ export const UserMenuContainer: FunctionComponent<OwnProps> = ({
   isUserMenuOpen,
   userDisplayName,
   user,
+  userPhotoURL,
+  userProviderId,
   toggleUserMenu,
   loggingOut,
 }) => {
@@ -25,12 +27,12 @@ export const UserMenuContainer: FunctionComponent<OwnProps> = ({
         className="login text-sm relative p-2.5 hover:bg-[#e13b3b] rounded-lg transition-colors flex items-center gap-2"
         onClick={toggleUserMenu}
       >
-        {user.photoURL && user.providerData[0].providerId !== "facebook.com" ? (
+        {userPhotoURL && userProviderId !== "facebook.com" ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             width={24}
             height={24}
-            src={user.photoURL || "/user.png"}
+            src={userPhotoURL || "/user.png"}
             alt="user img"
             className="rounded-full"
           />
@@ -39,7 +41,7 @@ export const UserMenuContainer: FunctionComponent<OwnProps> = ({
         )}
         {userDisplayName}
       </button>
-      {isUserMenuOpen && <UserMenu loggingOut={loggingOut} user={user} />}
+      {isUserMenuOpen ? <UserMenu loggingOut={loggingOut} user={user} /> : null}
     </div>
   );
 };
