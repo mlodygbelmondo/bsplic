@@ -2,10 +2,6 @@ import React from "react";
 import MainSubheader from "./MainSubheader";
 import BetCard from "./BetCard";
 
-import gta5PNG from "../assets/popularbets/robbery.png";
-import grid2PNG from "../assets/popularbets/finish-flag.png";
-import atomPNG from "../assets/popularbets/atom.png";
-import dicePNG from "../assets/popularbets/dice.png";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { getAllBets } from "@/server/api/queries";
 import dayjs from "dayjs";

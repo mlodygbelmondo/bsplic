@@ -1,7 +1,7 @@
 import { getAllPlacedBets, getAllUsers } from "@/server/api/queries";
 import React, { useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
-import MyCoupon from "../mycoupons/MyCoupon";
+import MyCoupon from "../mycoupons/coupons-list/coupons-list.component";
 import { RANKINGS_TAB } from "@/utils/consts";
 import { sortRankings } from "@/utils/sortRankings";
 import RankingsTab from "./RankingsTabs";

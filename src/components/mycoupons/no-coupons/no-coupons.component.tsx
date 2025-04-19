@@ -7,13 +7,13 @@ interface OwnProps {
   betsFilter: keyof typeof BETS_FILTER;
 }
 
-const NoMyCoupons = ({ betsFilter }: OwnProps) => {
-  const message = {
-    lost: "żadnych przegranych",
-    pending: "żadnych otwartych",
-    won: "jeszcze wygranych",
-  };
+const message = {
+  lost: "żadnych przegranych",
+  pending: "żadnych otwartych",
+  won: "jeszcze wygranych",
+};
 
+const NoCoupons = ({ betsFilter }: OwnProps) => {
   return (
     <div className="flex justify-center flex-col gap-2 items-center mt-10 text-center">
       <div className="p-4 bg-white rounded-full flex items-center justify-center">
@@ -25,7 +25,6 @@ const NoMyCoupons = ({ betsFilter }: OwnProps) => {
           height={58}
         />
       </div>
-      {/* TODO: CHANGE TO OTWARTYCH JAK BEDZIE SUBHEADER */}
       <h4 className="text-lg font-bold text-center">
         Nie masz {message[betsFilter]} kuponów.
       </h4>
@@ -41,4 +40,4 @@ const NoMyCoupons = ({ betsFilter }: OwnProps) => {
   );
 };
 
-export default NoMyCoupons;
+export default NoCoupons;

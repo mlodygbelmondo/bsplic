@@ -25,7 +25,7 @@ const Home = () => {
   const [bet2Percents, setBet2Percents] = useState("");
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
-  const [iconPath, setIconPath] = useState("/popularbets/dice.png");
+  const [iconPath, setIconPath] = useState("/general-categories/dice.png");
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -255,7 +255,6 @@ const Home = () => {
             ))}
           </Select>
         </div>
-
         <button
           type="submit"
           className="px-8 py-3 font-semibold bg-red-600 text-white border rounded-md hover:bg-red-700 transition-colors"

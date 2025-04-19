@@ -1,4 +1,3 @@
-import MyCoupon from "@/components/mycoupons/MyCoupon";
 import BetsStatusFilter from "@/components/shared/BetsStatusFilter";
 import PlacedBetsSearchbars from "@/components/shared/PlacedBetsSearchbars";
 import addData from "@/server/api/addData";
@@ -14,6 +13,7 @@ import { createToast } from "@/utils/toasts";
 import { TOAST_MESSAGES } from "@/utils/toastMessages";
 import { ReactNode } from "react";
 import AdminLayout from "../layout";
+import MyCoupon from "@/components/mycoupons/coupons-list";
 const Home = () => {
   const [users] = useCollection(getAllUsers());
   const [userBets] = useCollection(getAllPlacedBets());

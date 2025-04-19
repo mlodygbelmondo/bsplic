@@ -1,90 +1,67 @@
-import type { FunctionComponent } from "react";
-import SlotCounter from "react-slot-counter";
-import { inter } from "@/pages/_app";
-import { twMerge } from "tw-merge";
-import clsx from "clsx";
-import { match, P } from "ts-pattern";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { tickAnimationOptions, formatBalance } from "../";
-import Lottie from "react-lottie";
+import { formatBalance } from "../navbar.utils";
+import Lottie from "@/components/client-lottie/client-lottie";
+import tickAnimation from "../../../assets/lottie/tick-animation.json";
 
-interface OwnProps {
+interface Props {
   isMonthlyBonusClaimed: boolean;
   userBalance: number;
-  moneyIcon: "none" | "plus" | "animatedTick";
+  moneyIcon: "plus" | "none" | "animatedTick";
   claimBonus: () => void;
   completeAnimation: () => void;
 }
 
-export const MoneyCounter: FunctionComponent<OwnProps> = ({
+const MoneyCounter = ({
   isMonthlyBonusClaimed,
   userBalance,
   moneyIcon,
   claimBonus,
   completeAnimation,
-}) => {
+}: Props) => {
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  useEffect(() => {
+    if (moneyIcon === "animatedTick") {
+      setShowAnimation(true);
+      const timer = setTimeout(() => {
+        setShowAnimation(false);
+        completeAnimation();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [moneyIcon, completeAnimation]);
+
+  const tickAnimationOptions = {
+    autoplay: true,
+    loop: false,
+    animationData: tickAnimation,
+  };
+
   return (
-    <button
-      onClick={claimBonus}
-      className={twMerge(
-        clsx(
-          "flex gap-1 relative h-8 transition-all duration-300 items-center text-xs font-bold bg-red-800 p-1 rounded-full",
-          (isMonthlyBonusClaimed && moneyIcon === "animatedTick") ||
-            (moneyIcon === "plus" && !isMonthlyBonusClaimed)
-            ? "pl-7"
-            : "pl-1",
-          isMonthlyBonusClaimed ? "cursor-default" : ""
-        )
+    <div className="flex items-center gap-2">
+      {showAnimation ? (
+        <div className="w-6 h-6">
+          <Lottie options={tickAnimationOptions} height={24} width={24} />
+        </div>
+      ) : (
+        <button
+          onClick={claimBonus}
+          disabled={isMonthlyBonusClaimed}
+          className={`flex items-center justify-center w-6 h-6 rounded-full ${
+            isMonthlyBonusClaimed ? "bg-gray-400" : "bg-white"
+          }`}
+        >
+          <FaPlus
+            className={`text-sm ${
+              isMonthlyBonusClaimed ? "text-gray-500" : "text-red-500"
+            }`}
+          />
+        </button>
       )}
-    >
-      {match({ moneyIcon, isMonthlyBonusClaimed })
-        .with(
-          {
-            isMonthlyBonusClaimed: true,
-            moneyIcon: P.not("animatedTick"),
-          },
-          () => {
-            return null;
-          }
-        )
-        .with({ moneyIcon: "none" }, () => {
-          return null;
-        })
-        .with({ moneyIcon: "animatedTick" }, () => {
-          return (
-            <div className="absolute -left-2">
-              <Lottie
-                speed={1.2}
-                eventListeners={[
-                  {
-                    eventName: "complete",
-                    callback: () => {
-                      completeAnimation();
-                    },
-                  },
-                ]}
-                height={48}
-                width={48}
-                options={tickAnimationOptions}
-              />
-            </div>
-          );
-        })
-        .with({ moneyIcon: "plus" }, () => {
-          return (
-            <div className="absolute left-1.5">
-              <FaPlus className="text-red-500 p-1 bg-white rounded-full text-lg sp" />
-            </div>
-          );
-        })
-        .exhaustive()}
-      <span className="flex items-end gap-[1px]">
-        <SlotCounter
-          useMonospaceWidth
-          containerClassName={twMerge(clsx("tracking-tight", inter.className))}
-          value={formatBalance(userBalance)}
-        />
-      </span>
-    </button>
+      <p>{formatBalance(userBalance)}</p>
+    </div>
   );
 };
+
+export default MoneyCounter;

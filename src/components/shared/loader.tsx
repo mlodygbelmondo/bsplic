@@ -1,5 +1,5 @@
 import type { FunctionComponent } from "react";
-import Lottie, { Options } from "react-lottie";
+import Lottie, { Options } from "../client-lottie/client-lottie";
 import loaderAnimation from "../../assets/lottie/loader-animation.json";
 
 type Props = {

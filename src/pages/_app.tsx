@@ -2,15 +2,20 @@ import "@/styles/globals.css";
 import { AppContext, AppInitialProps, AppLayoutProps } from "next/app";
 import type { NextComponentType } from "next";
 import Navbar from "../components/navbar/navbar.component";
-import React from "react";
+import React, { useCallback } from "react";
 import Head from "next/head";
 import RouteGuard from "@/components/auth/RouteGuard";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { Montserrat } from "next/font/google";
+import { useRouter } from "next/router";
+import { AnimatePresence, motion } from "framer-motion";
 
-export const inter = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
 
 export interface ChosenBet {
   icon: string;
@@ -53,61 +58,49 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   const [chosenBets, setChosenBets] = useState<ChosenBet[]>([]);
   const [chosenBetSum, setChosenBetSum] = useState<ChosenBetSum[]>([]);
   const [isCouponOpen, setIsCouponOpen] = useState(false);
+  const router = useRouter();
 
-  if (Component.getLayout) {
-    return (
-      <main className={inter.className}>
-        <AuthContextProvider>
-          <Toaster position="top-right" containerClassName="translate-y-10" />
-          <Head>
-            <title>BSPLIC</title>
-            <link rel="bsplic icon" href="/bsplic-icon.ico" />
-          </Head>
-          <RouteGuard>
-            <ChosenBetsContext.Provider
-              value={{
-                chosenBets,
-                setChosenBets,
-                chosenBetSum,
-                setChosenBetSum,
-                isCouponOpen,
-                setIsCouponOpen,
-              }}
-            >
-              <div className="bg-[#f4f0f0] text-black min-h-screen">
-                <Navbar />
-                {Component.getLayout(<Component {...pageProps} />)}
-              </div>
-            </ChosenBetsContext.Provider>
-          </RouteGuard>
-        </AuthContextProvider>
-      </main>
-    );
-  }
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  const handleExitComplete = useCallback(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <main className={inter.className}>
+    <main className={`${montserrat.variable} font-sans`}>
       <AuthContextProvider>
-        <Toaster />
+        <Toaster position="top-right" containerClassName="translate-y-10" />
         <Head>
           <title>BSPLIC</title>
           <link rel="bsplic icon" href="/bsplic-icon.ico" />
         </Head>
-        {/* //TODO: Make ChosenBetsContext component and clean this out */}
-        <ChosenBetsContext.Provider
-          value={{
-            chosenBets,
-            setChosenBets,
-            chosenBetSum,
-            setChosenBetSum,
-            isCouponOpen,
-            setIsCouponOpen,
-          }}
-        >
-          <div className="bg-[#f4f0f0] text-black min-h-screen">
-            <Component {...pageProps} />
-          </div>
-        </ChosenBetsContext.Provider>
+        <RouteGuard>
+          <ChosenBetsContext.Provider
+            value={{
+              chosenBets,
+              setChosenBets,
+              chosenBetSum,
+              setChosenBetSum,
+              isCouponOpen,
+              setIsCouponOpen,
+            }}
+          >
+            <div className="bg-[#f4f0f0] text-black min-h-screen">
+              <Navbar />
+              <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
+                <motion.div
+                  key={router.asPath}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {getLayout(<Component {...pageProps} />)}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </ChosenBetsContext.Provider>
+        </RouteGuard>
       </AuthContextProvider>
     </main>
   );

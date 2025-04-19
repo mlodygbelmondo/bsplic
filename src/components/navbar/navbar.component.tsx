@@ -1,5 +1,4 @@
-"use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, memo, useCallback } from "react";
 import { useRouter } from "next/router";
 import { app } from "../../server/api/firebase";
 import { getAuth } from "firebase/auth";
@@ -17,20 +16,23 @@ import {
   MobileSidebar,
   Header,
   MobileNavbar,
-  MoneyCounter,
   NavbarLinks,
   UserMenuContainer,
   UserLinks,
 } from "./components";
 import { useToggle } from "@/hooks";
+import MoneyCounter from "./components/money-counter";
 
-const Navbar = () => {
+const Navbar = memo(() => {
   const { user }: { user: User } = useAuthContext();
   const router = useRouter();
   const auth = getAuth(app);
 
   const [userData] = useCollection(getUserById(user?.uid));
   const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [moneyIcon, setMoneyIcon] = useState<"plus" | "none" | "animatedTick">(
+    "plus"
+  );
 
   const [signOut] = useSignOut(auth);
 
@@ -46,8 +48,6 @@ const Navbar = () => {
     close: closeMobileSidebar,
   } = useToggle();
 
-  document.addEventListener("click", closeUserMenu);
-
   useEffect(() => {
     const getAdmins = async () => {
       if (user)
@@ -60,33 +60,35 @@ const Navbar = () => {
     getAdmins();
   }, [user]);
 
-  const loggingOut = async () => {
+  const loggingOut = useCallback(async () => {
     const success = await signOut();
     if (success) {
       router.push("/login");
       createToast(TOAST_MESSAGES.signOutSuccess());
     }
-  };
+  }, [router, signOut]);
 
   const userAccount = userData?.docs[0]?.data();
 
-  const { userBalance, userDisplayName, userProviderId } = useMemo(() => {
-    console.log(user);
+  const { userBalance, userDisplayName, userPhotoURL, userProviderId } =
+    useMemo(() => {
+      const userBalance = userData?.docs[0]?.data()?.balance
+        ? (userData?.docs[0]?.data().balance as number)
+        : 0;
 
-    const userBalance = userData?.docs[0]?.data()?.balance
-      ? (userData?.docs[0]?.data().balance as number)
-      : 0;
-    const userProviderId = user?.providerData[0].providerId;
-    const userDisplayName = user?.displayName
-      ? user.displayName.split(" ")[0]
-      : "Profil";
+      const userPhotoURL = user?.photoURL || "/user.png";
+      const userProviderId = user?.providerData[0].providerId;
+      const userDisplayName = user?.displayName
+        ? user.displayName.split(" ")[0]
+        : "Profil";
 
-    return {
-      userBalance,
-      userProviderId,
-      userDisplayName,
-    };
-  }, [userData, user]);
+      return {
+        userBalance,
+        userProviderId,
+        userPhotoURL,
+        userDisplayName,
+      };
+    }, [userData, user]);
 
   const isMonthlyBonusClaimed = !dayjs()
     .startOf("month")
@@ -95,13 +97,7 @@ const Navbar = () => {
       "day"
     );
 
-  const [moneyIcon, setMoneyIcon] = useState<"plus" | "none" | "animatedTick">(
-    () => {
-      return "plus";
-    }
-  );
-
-  const claimBonus = async () => {
+  const claimBonus = useCallback(async () => {
     if (isMonthlyBonusClaimed || !userAccount?.lastDailyBonus) {
       return;
     }
@@ -114,17 +110,26 @@ const Navbar = () => {
       });
       createToast(TOAST_MESSAGES.monthlyBonusClaimed());
     }
-  };
+  }, [isMonthlyBonusClaimed, userAccount, user?.uid]);
 
-  const completeAnimation = () => {
+  const completeAnimation = useCallback(() => {
     setMoneyIcon("none");
-  };
+  }, []);
 
-  const linkClick = (pathname: string) => {
-    if (router.asPath !== pathname) {
-      router.push(pathname);
-    }
-  };
+  const linkClick = useCallback(
+    (pathname: string) => {
+      if (router.asPath !== pathname) {
+        router.push(pathname);
+      }
+    },
+    [router]
+  );
+
+  useEffect(() => {
+    const handleClick = () => closeUserMenu();
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [closeUserMenu]);
 
   return (
     <nav className="bg-gradient2 text-white fixed h-12 left-0 top-0 w-full z-10">
@@ -151,19 +156,11 @@ const Navbar = () => {
             completeAnimation={completeAnimation}
           />
           <UserLinks isUserAdmin={isUserAdmin} linkClick={linkClick} />
-
-          <img
-            width={24}
-            height={24}
-            src="https://lh3.googleusercontent.com/a/AGNmyxYRPTGEVweejTxpX9Zuy6ORyFVsCLNQ4aTm5VuDrw=s96-c"
-            alt="user img"
-            className="rounded-full"
-          />
           <UserMenuContainer
             loggingOut={loggingOut}
             user={user}
             userDisplayName={userDisplayName}
-            userPhotoURL={""}
+            userPhotoURL={userPhotoURL}
             userProviderId={userProviderId}
             toggleUserMenu={toggleUserMenu}
             isUserMenuOpen={isUserMenuOpen}
@@ -178,6 +175,8 @@ const Navbar = () => {
       />
     </nav>
   );
-};
+});
+
+Navbar.displayName = "Navbar";
 
 export default Navbar;

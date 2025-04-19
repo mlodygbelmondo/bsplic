@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-montserrat)"],
+      },
       colors: {
         "primary-500": "rgb(202, 26, 26)",
         "primary-400": "rgb(198, 51, 51)",

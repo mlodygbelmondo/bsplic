@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import getData from "../../server/api/getData";
+import getData from "../../../server/api/getData";
 import { useAuthContext } from "@/context/AuthContext";
 import { User } from "firebase/auth";
 
@@ -88,7 +88,9 @@ const MyCoupon = <Coupon extends CouponBasic>({
             </div>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1.5">
-                <p className="text-sm font-medium text-gray-900">{b.label}:</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {b?.label || "Zakład"}:
+                </p>
                 <p className="text-sm font-bold text-gray-900">{b.bet}</p>
               </div>
               <p className="p-1.5 bg-yellow-400 rounded-md text-[13px] font-semibold">
@@ -107,7 +109,9 @@ const MyCoupon = <Coupon extends CouponBasic>({
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1.5">
-              <p className="text-sm font-medium text-gray-900">{bet.label}:</p>
+              <p className="text-sm font-medium text-gray-900">
+                {bet?.label || "Zakład"}:
+              </p>
               <p className="text-sm font-bold text-gray-900">{bet.bet}</p>
             </div>
             <p className="p-1.5 bg-yellow-400 rounded-md text-[13px] font-semibold">

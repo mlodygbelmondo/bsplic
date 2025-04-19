@@ -26,7 +26,7 @@ const Home = () => {
   const [bet2Percents, setBet2Percents] = useState("");
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
-  const [iconPath, setIconPath] = useState("/popularbets/dice.png");
+  const [iconPath, setIconPath] = useState("/general-categories/dice.png");
 
   const { user }: { user: User } = useAuthContext();
   const submit = (e: React.FormEvent<HTMLFormElement>) => {

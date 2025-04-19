@@ -1,5 +1,3 @@
-import MyCoupon from "@/components/mycoupons/MyCoupon";
-import NoMyCoupons from "@/components/mycoupons/NoMyCoupons";
 import { useAuthContext } from "@/context/AuthContext";
 import { getBetsPlacedByUserId } from "@/server/api/queries";
 import { User } from "firebase/auth";
@@ -11,6 +9,8 @@ import { BETS_FILTER } from "@/utils/consts";
 import { filterBets } from "@/utils/filterBets";
 import BetsStatusFilter from "@/components/shared/BetsStatusFilter";
 import BetsLayout from "../layout";
+import NoCoupons from "@/components/mycoupons/no-coupons";
+import MyCoupon from "@/components/mycoupons/coupons-list";
 
 const Home = () => {
   const { user }: { user: User } = useAuthContext();
@@ -52,7 +52,7 @@ const Home = () => {
               ))}
             </>
           ) : (
-            <NoMyCoupons betsFilter={betsFilter} />
+            <NoCoupons betsFilter={betsFilter} />
           ))}
       </div>
     </>
